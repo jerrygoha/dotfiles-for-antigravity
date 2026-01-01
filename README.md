@@ -19,47 +19,194 @@
 
 ## 🚀 Quick Start
 
-### 1. Clone the Repository
+### Step 1: Clone This Repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/dotfiles-for-antigravity.git
 cd dotfiles-for-antigravity
 ```
 
-### 2. Set Up User Rules
+### Step 2: Set Up User Rules (One-time Global Setup)
 
-Copy the user rules template to your Antigravity configuration:
+User rules are applied **globally** to all your Antigravity conversations.
+
+1. Open Antigravity settings
+2. Navigate to "User Rules" or "Custom Instructions" section
+3. Copy and paste the content from one of these templates:
 
 ```bash
-# Option 1: Use the default template
-cat user-rules/default.md
-
-# Option 2: Use the advanced Dev-Master template (bilingual KR/EN)
-cat user-rules/dev-master.md
-
-# Option 3: Choose a specific persona
-cat user-rules/examples/frontend-dev.md
+# View the template you want to use
+cat user-rules/default.md           # Basic professional
+cat user-rules/dev-master.md        # Advanced bilingual (KR/EN)
+cat user-rules/examples/frontend-dev.md  # React/Next.js focused
 ```
 
-Then paste the contents into your Antigravity user settings.
+4. Save your settings
 
-### 3. Set Up Workflows
+---
 
-Copy the `.agent/workflows/` directory to your project:
+## 📦 Using Dotfiles in a New Project
+
+### Method 1: Copy Workflows to Your Project (Recommended)
+
+For each new project, copy the workflows directory:
 
 ```bash
-cp -r .agent/workflows/ /path/to/your/project/.agent/workflows/
+# Navigate to your project
+cd /path/to/your/project
+
+# Create .agent directory and copy workflows
+mkdir -p .agent
+cp -r /path/to/dotfiles-for-antigravity/.agent/workflows .agent/
+
+# Verify the setup
+ls .agent/workflows/
+```
+
+Your project structure will look like:
+
+```
+your-project/
+├── .agent/
+│   └── workflows/
+│       ├── brainstorm.md
+│       ├── code-review.md
+│       ├── debug.md
+│       └── ... (14 workflow files)
+├── src/
+├── package.json
+└── ...
+```
+
+### Method 2: Symbolic Link (For Development)
+
+If you want workflows to auto-update when you modify the dotfiles:
+
+```bash
+cd /path/to/your/project
+mkdir -p .agent
+ln -s /path/to/dotfiles-for-antigravity/.agent/workflows .agent/workflows
+```
+
+### Method 3: Git Submodule
+
+For team projects where everyone needs the same workflows:
+
+```bash
+cd /path/to/your/project
+git submodule add https://github.com/YOUR_USERNAME/dotfiles-for-antigravity.git .dotfiles
+mkdir -p .agent
+cp -r .dotfiles/.agent/workflows .agent/
 ```
 
 ---
 
-## 📁 Directory Structure
+## 🎯 How to Use Workflows
+
+Once workflows are set up in your project, use them with slash commands:
+
+```
+/brainstorm       # Start interactive design refinement
+/debug            # Systematic debugging with root cause analysis
+/write-plan       # Create implementation plan before coding
+/execute-plan     # Execute plan with checkpoints
+/code-review      # Run security and quality checklist
+/create-pr        # Create well-structured pull request
+/handoff          # Save session context for later
+/pickup           # Resume from previous handoff
+```
+
+### Example Workflow Usage
+
+```
+User: /debug
+
+Antigravity: Starting systematic debugging process...
+
+## Phase 1: Reproduce & Observe
+What issue are you experiencing? Please provide:
+1. Expected behavior
+2. Actual behavior
+3. Error messages (if any)
+...
+```
+
+---
+
+## 🔧 Project-Specific Customization
+
+### Adding Project Context
+
+Create an `ANTIGRAVITY.md` file in your project root:
+
+```bash
+# Copy the template
+cp /path/to/dotfiles-for-antigravity/ANTIGRAVITY.md /path/to/your/project/
+```
+
+Then customize it with your project-specific information:
+
+```markdown
+# ANTIGRAVITY.md
+
+## Project Overview
+[Your project description]
+
+## Tech Stack
+- Framework: Next.js 14
+- Database: PostgreSQL
+- Styling: Tailwind CSS
+
+## Key Commands
+npm run dev    # Start development server
+npm run test   # Run tests
+npm run build  # Build for production
+
+## Architecture Notes
+[Your project-specific notes]
+```
+
+### Customizing Workflows for Your Project
+
+If you need project-specific workflows:
+
+```bash
+# Create a custom workflow
+touch .agent/workflows/deploy-staging.md
+```
+
+Add your custom workflow:
+
+```markdown
+---
+description: Deploy to staging environment
+---
+
+# Deploy to Staging
+
+## Prerequisites
+- All tests passing
+- Branch is up to date
+
+## Steps
+// turbo
+1. Run build:
+\`\`\`bash
+npm run build
+\`\`\`
+
+2. Deploy to staging...
+```
+
+---
+
+## 📁 Complete Directory Structure
 
 ```
 dotfiles-for-antigravity/
 ├── README.md               # English documentation
 ├── README_KR.md            # 한국어 문서
-├── ANTIGRAVITY.md          # Agent context file
+├── ANTIGRAVITY.md          # Agent context template
 ├── .agent/
 │   └── workflows/          # 14 workflow definitions
 │       ├── brainstorm.md
@@ -94,39 +241,39 @@ dotfiles-for-antigravity/
 
 ---
 
-## 🔧 Configuration Files
+## 📋 Configuration Reference
 
-### User Rules
+### User Rules Templates
 
-| Template | Description |
-|----------|-------------|
-| `default.md` | Basic rules for clean, professional code |
-| `dev-master.md` | Advanced bilingual (EN/KR) with C.O.D.E.R. framework |
-| `examples/frontend-dev.md` | React/Next.js focused |
-| `examples/backend-dev.md` | API and services focused |
-| `examples/devops-engineer.md` | Infrastructure and reliability |
-| `examples/python-dev.md` | Python best practices |
-| `examples/korean-dev.md` | Korean developer bilingual setup |
-| `examples/minimal.md` | Concise, code-first responses |
+| Template | Best For |
+|----------|----------|
+| `default.md` | General development, clean code focus |
+| `dev-master.md` | Korean developers, bilingual projects |
+| `examples/frontend-dev.md` | React, Next.js, Vue projects |
+| `examples/backend-dev.md` | Node.js, Python APIs, microservices |
+| `examples/devops-engineer.md` | Infrastructure, CI/CD, Kubernetes |
+| `examples/python-dev.md` | Python backend, data science, ML |
+| `examples/korean-dev.md` | Korean developers, localized projects |
+| `examples/minimal.md` | Quick tasks, code-first responses |
 
-### Workflows
+### Workflow Commands
 
-| Workflow | Description |
-|----------|-------------|
-| `/brainstorm` | Interactive design refinement using Socratic method |
-| `/code-review` | Security audit, performance review checklist |
-| `/create-pr` | Create well-structured pull requests |
-| `/create-workflow` | Create new workflow files |
-| `/debug` | Four-phase root cause analysis |
-| `/execute-plan` | Execute plan in batches with checkpoints |
-| `/fix-ci` | Diagnose and fix CI/CD failures |
-| `/git-exclude` | Manage local git excludes |
-| `/git-workflow` | Git branching, commits, and PRs |
-| `/handoff` | Create handoff documents for session continuity |
-| `/pickup` | Resume work from previous handoff |
-| `/research` | Web research with citations |
-| `/testing` | Unit and integration test guidelines |
-| `/write-plan` | Create detailed implementation plans |
+| Command | When to Use |
+|---------|-------------|
+| `/brainstorm` | Need creative solutions or design ideas |
+| `/write-plan` | Before starting complex features |
+| `/execute-plan` | Work through approved plan systematically |
+| `/debug` | Troubleshooting bugs with unknown cause |
+| `/code-review` | Before merging code, security audit |
+| `/testing` | Writing unit/integration tests |
+| `/create-pr` | Ready to open pull request |
+| `/fix-ci` | CI pipeline is failing |
+| `/git-workflow` | Git operations, branching strategy |
+| `/git-exclude` | Local-only file ignores |
+| `/research` | Need to compare technologies |
+| `/handoff` | Ending session, save context |
+| `/pickup` | Resume previous session |
+| `/create-workflow` | Make custom workflow |
 
 ---
 
