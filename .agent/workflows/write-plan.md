@@ -4,21 +4,23 @@ description: Create detailed implementation plan with bite-sized tasks
 
 # Write Plan Workflow
 
-Create a structured implementation plan before starting development.
+Structured planning before development.
+
+---
 
 ## When to Use
 
-- Before starting complex features
-- When requirements need clarification
-- For tasks estimated over 2 hours
-- When multiple components are affected
+- Complex features (2+ hours)
+- Multiple components affected
+- Requirements need clarification
+- Team coordination needed
 
-## Plan Structure
+---
 
-### Template
+## Plan Template
 
 ```markdown
-# [Feature/Task Name]
+# [Feature Name]
 
 ## Problem Statement
 [What problem does this solve?]
@@ -28,63 +30,72 @@ Create a structured implementation plan before starting development.
 - [ ] Secondary goals
 
 ## Non-Goals
-- What is explicitly out of scope
+- [Explicitly out of scope]
 
 ## Technical Approach
 
-### Architecture Overview
+### Architecture
 [High-level design]
 
 ### Components Affected
-| Component | Change Type | Description |
-|-----------|-------------|-------------|
-| [file/module] | New/Modify/Delete | [What changes] |
+| Component | Change | Description |
+|-----------|--------|-------------|
+| [file] | New/Modify/Delete | [What changes] |
 
 ## Implementation Steps
 
-### Phase 1: [Name]
-- [ ] Step 1.1: [Description] (~Xh)
-- [ ] Step 1.2: [Description] (~Xh)
+### Phase 1: [Name] (~Xh)
+- [ ] Step 1.1
+- [ ] Step 1.2
 
-### Phase 2: [Name]
-- [ ] Step 2.1: [Description] (~Xh)
+### Phase 2: [Name] (~Xh)
+- [ ] Step 2.1
 
-## Risks & Mitigations
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| [Risk] | High/Med/Low | [Strategy] |
+## Risk Assessment
+
+| Risk | Probability | Impact | Score | Mitigation |
+|------|-------------|--------|-------|------------|
+| [Risk] | 1-5 | 1-5 | P×I | [Strategy] |
+
+> Score >= 15: Requires explicit approval
+> Score 10-14: Document mitigation plan
+> Score < 10: Accept and proceed
 
 ## Testing Strategy
-- Unit tests for [...]
-- Integration tests for [...]
-- Manual verification: [...]
+- Unit: [What to test]
+- Integration: [What to test]
+- Manual: [What to verify]
 
 ## Rollback Plan
-[How to revert if something goes wrong]
+[How to revert if needed]
 
-## Estimated Timeline
-- Phase 1: X hours
-- Phase 2: X hours
-- Total: X hours
+## Timeline
+- Phase 1: Xh
+- Phase 2: Xh
+- **Total**: Xh
 ```
+
+---
 
 ## Best Practices
 
-1. **Break down tasks** - Each step should be 30min - 2h max
-2. **Identify dependencies** - What needs to happen first?
-3. **Consider edge cases** - What could go wrong?
-4. **Define done** - How do we know it's complete?
+1. **Small steps** - 30min to 2h each
+2. **Dependencies first** - Order matters
+3. **Quantify risks** - Use P×I scoring
+4. **Define done** - Clear completion criteria
+
+---
 
 ## Save Location
 
 // turbo
 ```bash
 mkdir -p .agent/plans
-# Save to .agent/plans/YYYY-MM-DD-[feature-name].md
+# Save: .agent/plans/YYYY-MM-DD-[feature].md
 ```
+
+---
 
 ## Next Step
 
-After creating the plan:
-- Review with user/team
-- Use `/execute-plan` to begin implementation
+After plan approval → `/execute-plan`

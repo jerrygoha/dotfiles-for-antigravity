@@ -4,92 +4,103 @@ description: Diagnose and fix CI/CD pipeline failures
 
 # Fix CI Workflow
 
-Systematic approach to troubleshoot and resolve CI/CD failures.
+Systematic approach with environment verification.
 
-## Process
+---
 
-### 1. Identify the Failure
+## 1. Identify Failure
 
 // turbo
 ```bash
-# Check recent CI runs (if using GitHub Actions)
 gh run list --limit 5
 ```
 
-Read the CI logs to identify:
-- Which step failed?
-- What error message?
-- Is it flaky or consistent?
+**Categorize:**
 
-### 2. Categorize the Failure
+| Category | Common Causes | Quick Check |
+|----------|---------------|-------------|
+| Build | Missing deps, syntax | `npm ci && npm run build` |
+| Lint | Style violations | `npm run lint` |
+| Test | Failing assertions | `npm test` |
+| Deploy | Config, secrets | Check env vars |
+| Timeout | Slow tests | Optimize/increase |
 
-| Category | Common Causes | Quick Fix |
-|----------|---------------|-----------|
-| **Build** | Missing deps, syntax errors | Check package.json, fix errors |
-| **Lint** | Style violations | Run linter locally, fix issues |
-| **Test** | Failing assertions | Debug test, check for flaky tests |
-| **Deploy** | Config issues, secrets | Verify environment variables |
-| **Timeout** | Slow tests, infinite loops | Optimize or increase timeout |
+---
 
-### 3. Reproduce Locally
+## 2. Reproduce Locally (CRITICAL)
+
+**Environment Parity Check:**
 
 // turbo
 ```bash
-# Match CI environment locally
+# Compare local vs CI environment
+echo "Node: $(node -v)"
+echo "npm: $(npm -v)"
+cat .nvmrc 2>/dev/null || echo "No .nvmrc"
+```
+
+// turbo
+```bash
+# Match CI environment
+rm -rf node_modules
 npm ci
 npm run lint
 npm run test
 npm run build
 ```
 
-### 4. Common Solutions
+> ⚠️ 로컬에서 재현되지 않으면 환경 차이 문제일 가능성 높음
 
-#### Build Failures
+---
+
+## 3. Common Solutions
+
+**Build Failures:**
 ```bash
-# Clear node_modules and reinstall
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-#### Lock File Issues
-```bash
-# Regenerate lock file
-npm install --package-lock-only
-```
-
-#### Flaky Tests
+**Flaky Tests:**
 - Add retry logic
-- Check for race conditions
-- Mock external dependencies
+- Check race conditions
+- Mock external dependencies properly
 
-#### Missing Environment Variables
+**Environment Variables:**
+// turbo
 ```bash
-# Verify all required env vars are set
-grep -r "process.env" --include="*.ts" --include="*.js"
+grep -r "process.env" --include="*.ts" --include="*.js" | grep -v node_modules | head -10
 ```
 
-### 5. Verify Fix
+---
+
+## 4. Verify Fix
 
 // turbo
 ```bash
-# Run full CI check locally
 npm run lint && npm run test && npm run build
 ```
 
-### 6. Push and Monitor
+---
+
+## 5. Push & Monitor
 
 ```bash
 git add .
-git commit -m "fix(ci): [description of fix]"
+git commit -m "fix(ci): [description]"
 git push
 ```
 
-Then monitor the CI pipeline to confirm the fix.
+// turbo
+```bash
+gh run watch
+```
 
-## Prevention Checklist
+---
 
-- [ ] Run full test suite before pushing
-- [ ] Keep dependencies up to date
-- [ ] Use lock files consistently
-- [ ] Set appropriate timeouts
-- [ ] Document required environment variables
+## Prevention
+
+- [ ] Run full suite before push
+- [ ] Keep dependencies updated
+- [ ] Use lock files
+- [ ] Document required env vars

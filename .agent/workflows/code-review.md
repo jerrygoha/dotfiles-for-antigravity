@@ -4,57 +4,83 @@ description: Code review checklist for quality and security
 
 # Code Review Workflow
 
-Systematic code review process covering quality, security, and performance.
+Systematic review with verification commands.
 
-## Pre-Review Checklist
+---
 
-Before starting the review, verify:
+## Pre-Review Verification
 
-- [ ] Build passes successfully
-- [ ] All tests pass
-- [ ] No linting errors
-- [ ] Branch is up-to-date with main
+// turbo
+```bash
+npm run build && npm run lint && npm test
+```
 
-## Code Quality Review
+- [ ] Build passes
+- [ ] No lint errors
+- [ ] Tests pass
+- [ ] Branch up-to-date with main
+
+---
+
+## Code Quality
 
 ### 1. Readability
-- [ ] Clear, descriptive variable and function names
-- [ ] Appropriate comments for complex logic
-- [ ] Consistent code style with project standards
-- [ ] No dead code or commented-out blocks
+- [ ] Clear variable/function names
+- [ ] Comments for complex logic only
+- [ ] Consistent style
+- [ ] No dead code
 
 ### 2. Architecture
-- [ ] Follows SOLID principles
-- [ ] DRY - no duplicate code
-- [ ] KISS - simple solutions preferred
+- [ ] SOLID principles followed
+- [ ] DRY - no duplication
+- [ ] KISS - simple solutions
 - [ ] Proper separation of concerns
 
 ### 3. Error Handling
-- [ ] All errors are caught and handled appropriately
+- [ ] All errors caught and handled
 - [ ] User-friendly error messages
-- [ ] Logging for debugging purposes
+- [ ] Appropriate logging
+
+---
 
 ## Security Audit
 
-### OWASP Top 10 Check
-- [ ] **Injection:** Input validation and parameterized queries
-- [ ] **Broken Auth:** Proper authentication flow
-- [ ] **Sensitive Data:** No secrets in code, encryption where needed
-- [ ] **XXE:** XML parsing is secure
-- [ ] **Access Control:** Proper authorization checks
-- [ ] **Misconfig:** Secure default configurations
-- [ ] **XSS:** Output encoding, CSP headers
-- [ ] **Deserialization:** Safe deserialization practices
-- [ ] **Components:** Dependencies are up-to-date
-- [ ] **Logging:** Security events are logged
+// turbo
+```bash
+# Check for secrets
+git diff origin/main | grep -iE "(password|secret|api_key|token)" || echo "No secrets found"
 
-## Performance Review
+# Check dependencies
+npm audit
+```
+
+**OWASP Quick Check:**
+
+| Risk | Check | Verified |
+|------|-------|----------|
+| Injection | Parameterized queries? | [ ] |
+| XSS | Output encoded? | [ ] |
+| Auth | Proper session handling? | [ ] |
+| Secrets | No hardcoded credentials? | [ ] |
+| Access | Authorization checks? | [ ] |
+
+---
+
+## Performance
+
+// turbo
+```bash
+# Check for N+1 queries (if applicable)
+grep -rn "\.find\|\.query" --include="*.ts" --include="*.js" | head -20
+```
 
 - [ ] No N+1 query problems
-- [ ] Appropriate use of caching
-- [ ] Efficient algorithms (check Big-O complexity)
+- [ ] Appropriate caching
+- [ ] Efficient algorithms
 - [ ] No memory leaks
-- [ ] Lazy loading where appropriate
+- [ ] Lazy loading where needed
+
+---
 
 ## Final Steps
 

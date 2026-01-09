@@ -4,112 +4,123 @@ description: Execute implementation plan in batches with review checkpoints
 
 # Execute Plan Workflow
 
-Systematically work through an implementation plan with checkpoints.
+Work through plans with verification at each phase.
+
+---
 
 ## Prerequisites
 
-- Have an existing plan (use `/write-plan` first if needed)
-- User has approved the plan
+- Approved plan exists (use `/write-plan` first)
+- User has reviewed and approved
+
+---
 
 ## Process
 
-### 1. Load the Plan
+### 1. Load Plan
 
+// turbo
 ```bash
-# Find and read the plan
-cat .agent/plans/*.md
+ls -la .agent/plans/*.md 2>/dev/null || echo "No plans found"
 ```
 
 ### 2. Execute in Batches
-
-Work through tasks in logical groups:
 
 ```markdown
 ## Current Batch: Phase 1
 
 ### Executing:
-- [x] Step 1.1: Create database schema
-- [ ] Step 1.2: Implement model layer
+- [x] Step 1.1: Create schema
+- [ ] Step 1.2: Implement model
 - [ ] Step 1.3: Add validation
 
-### Progress: 1/3 complete
+### Progress: 1/3
 ```
 
 ### 3. Checkpoint After Each Phase
 
-After completing a batch:
+**Verification Steps:**
 
-1. **Summarize what was done**
-   - Files created/modified
-   - Key decisions made
+// turbo
+```bash
+npm run build && npm test
+```
 
-2. **Verify status**
-   - Build passes?
-   - Tests pass?
+**Report Template:**
+```markdown
+## Phase [N] Complete
 
-3. **Ask to continue**
-   ```
-   Phase 1 complete. Ready for Phase 2?
-   - Next: Implement API endpoints
-   - Estimated time: 2 hours
-   ```
+**Done:**
+- [Changes made]
+
+**Verified:**
+- Build: ✅/❌
+- Tests: ✅/❌
+
+**Next:** Phase [N+1] - [Description]
+Continue? [Y/N]
+```
 
 ### 4. Handle Blockers
 
-If you encounter issues:
+```markdown
+## Blocker Encountered
 
-1. Document the blocker
-2. Assess impact on plan
-3. Propose alternatives:
-   ```markdown
-   ## Blocker Encountered
-   
-   **Issue**: [Description]
-   
-   **Options**:
-   1. [Workaround A] - Pros/Cons
-   2. [Workaround B] - Pros/Cons
-   3. Skip and revisit later
-   
-   **Recommendation**: [Your suggestion]
-   ```
+**Issue**: [Description]
+**Impact**: [High/Med/Low]
 
-### 5. Completion
+**Options**:
+1. [Workaround A] - [Pros/Cons]
+2. [Workaround B] - [Pros/Cons]
+3. Skip and revisit
 
-When all phases are done:
+**Recommendation**: [Your suggestion]
+```
 
-1. Update plan with completion status
-2. Run final verification:
-   ```bash
-   # Build check
-   npm run build
-   
-   # Test check
-   npm test
-   ```
+### 5. Rollback Verification
 
-3. Create summary:
-   ```markdown
-   ## Execution Complete
-   
-   ### Completed Tasks
-   - [x] Phase 1: Database layer
-   - [x] Phase 2: API endpoints
-   - [x] Phase 3: Frontend integration
-   
-   ### Key Changes
-   - Created 5 new files
-   - Modified 3 existing files
-   
-   ### Next Steps
-   - Code review
-   - Deploy to staging
-   ```
+**Before marking complete, verify rollback is possible:**
+
+// turbo
+```bash
+# Verify git state allows rollback
+git log --oneline -5
+git stash list
+```
+
+### 6. Completion
+
+// turbo
+```bash
+npm run build && npm test
+```
+
+```markdown
+## Execution Complete
+
+### Completed
+- [x] Phase 1
+- [x] Phase 2
+
+### Key Changes
+- Created: [files]
+- Modified: [files]
+
+### Rollback Command
+git revert [commit-range]
+
+### Next Steps
+- Code review
+- Deploy to staging
+```
+
+---
 
 ## Best Practices
 
-- ✅ Complete one batch before starting next
-- ✅ Always run checks between phases
-- ✅ Keep user informed of progress
-- ❌ Don't skip ahead in the plan
-- ❌ Don't make changes outside the plan scope
+- ✅ Complete one batch before next
+- ✅ Run checks between phases
+- ✅ Keep user informed
+- ✅ Verify rollback capability
+- ❌ Don't skip ahead
+- ❌ Don't exceed plan scope

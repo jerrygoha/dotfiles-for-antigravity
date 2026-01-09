@@ -4,45 +4,43 @@ description: Testing workflow for unit and integration tests
 
 # Testing Workflow
 
-Guidelines for writing and running tests.
+Comprehensive testing strategy including advanced techniques.
+
+---
 
 ## Test Structure
 
-Follow the **AAA Pattern**:
-
-```
-Arrange → Act → Assert
-```
-
-### Directory Structure
+**AAA Pattern**: `Arrange → Act → Assert`
 
 ```
 tests/
-├── unit/           # Fast, isolated tests
-├── integration/    # Tests with external dependencies
-├── e2e/            # End-to-end browser tests
+├── unit/           # Fast, isolated (< 100ms each)
+├── integration/    # External dependencies
+├── e2e/            # Full user flows
 └── fixtures/       # Test data and mocks
 ```
 
-## Unit Test Guidelines
+---
+
+## Unit Testing
 
 ### What to Test
 - Pure functions with business logic
 - State management (stores, reducers)
-- Utility functions
-- Component rendering (without external deps)
+- Utilities and helpers
+- Component rendering (isolated)
 
 ### Best Practices
-- One assertion per test (when possible)
-- Descriptive test names: `should_return_X_when_Y`
-- Use factories for test data
-- Mock external dependencies
+- **One assertion per test** (when practical)
+- **Descriptive names**: `should_return_X_when_Y`
+- **Test factories** for consistent data
+- **Mock boundaries**, not internals
 
-### Example (Jest)
+### Example
 
 ```javascript
 describe('calculateTotal', () => {
-  it('should return sum of items when cart has products', () => {
+  it('should sum items when cart has products', () => {
     // Arrange
     const cart = [
       { price: 100, quantity: 2 },
@@ -62,40 +60,136 @@ describe('calculateTotal', () => {
 });
 ```
 
-## Integration Test Guidelines
+---
+
+## Edge Case Testing (MANDATORY)
+
+### Boundary Value Analysis
+
+| Input Type | Test Cases |
+|------------|-----------|
+| Numbers | `0`, `-1`, `MAX_INT`, `NaN`, `Infinity` |
+| Strings | `""`, `" "`, very long, unicode, `null` |
+| Arrays | `[]`, single item, max size |
+| Objects | `{}`, `null`, `undefined`, nested |
+
+```javascript
+describe('Edge Cases', () => {
+  it.each([
+    [[], 0],           // Empty
+    [[1], 1],          // Single
+    [[-1, -2], -3],    // Negatives
+    [[0, 0, 0], 0],    // Zeros
+  ])('sum(%p) should be %i', (input, expected) => {
+    expect(sum(input)).toBe(expected);
+  });
+});
+```
+
+---
+
+## Property-Based Testing
+
+**Instead of specific examples, define properties that always hold.**
+
+```javascript
+import fc from 'fast-check';
+
+describe('Property-based: sort function', () => {
+  it('should preserve array length', () => {
+    fc.assert(fc.property(
+      fc.array(fc.integer()),
+      (arr) => {
+        const sorted = sort(arr);
+        return sorted.length === arr.length;
+      }
+    ));
+  });
+  
+  it('should be idempotent', () => {
+    fc.assert(fc.property(
+      fc.array(fc.integer()),
+      (arr) => {
+        const once = sort(arr);
+        const twice = sort(once);
+        return JSON.stringify(once) === JSON.stringify(twice);
+      }
+    ));
+  });
+});
+```
+
+---
+
+## Mutation Testing Awareness
+
+**Concept**: Verify tests catch bugs by introducing mutations.
+
+```bash
+# Using Stryker (JavaScript)
+npx stryker run
+
+# Interpret results
+# - Killed mutants = Good tests
+# - Survived mutants = Weak tests
+```
+
+**Common Weak Tests:**
+- Missing boundary checks
+- Only testing happy path
+- Assertions that pass for any value
+
+---
+
+## Integration Testing
 
 ### What to Test
-- API endpoints
-- Database operations
-- Third-party service integrations
+- API endpoints (request/response)
+- Database operations (CRUD)
+- External service integrations
 
 ### Best Practices
 - Use test databases
-- Clean up after each test
+- Clean up after each test (`afterEach`)
 - Test both success and error paths
+- Mock external APIs, not internal modules
+
+---
+
+## Test Coverage Matrix
+
+| Module | Unit | Integration | E2E | Edge Cases |
+|--------|------|-------------|-----|------------|
+| Auth | ✅ | ✅ | ✅ | ✅ |
+| API | ✅ | ✅ | - | ✅ |
+| Utils | ✅ | - | - | ✅ |
+
+---
 
 ## Running Tests
 
 // turbo
-1. Run all tests:
 ```bash
 npm test
 ```
 
 // turbo
-2. Run with coverage:
 ```bash
 npm run test:coverage
 ```
 
 // turbo
-3. Run specific test file:
 ```bash
 npm test -- --testPathPattern="filename"
 ```
 
+---
+
 ## Coverage Requirements
 
-- Minimum **80%** line coverage for core modules
-- **100%** coverage for utility functions
-- Critical paths must have explicit tests
+| Module Type | Line Coverage | Branch Coverage |
+|-------------|--------------|-----------------|
+| Core/Critical | 90%+ | 85%+ |
+| Business Logic | 80%+ | 75%+ |
+| Utilities | 100% | 100% |
+| UI Components | 70%+ | 60%+ |
