@@ -4,70 +4,67 @@ description: Restore session context from handoff document
 
 # Pickup Workflow
 
-이전 세션의 핸드오프 문서를 읽고 컨텍스트를 복원합니다.
+Restore session context from a previous handoff document.
 
 ## When to Use
 
-- 새 세션에서 이전 작업 이어할 때
-- `/handoff`로 저장한 상태 복원 시
+- Starting new session after `/handoff`
+- Continuing someone else's work
+- Resuming after break
 
 ---
 
 ## Process
 
-### 1. 핸드오프 문서 확인
+### 1. List Available Handoffs
 
 // turbo
 ```bash
 ls -la .agent/handoffs/*.md 2>/dev/null || echo "No handoffs found"
 ```
 
-### 2. 문서 읽기
+### 2. Read Handoff Document
+
+Specify the handoff file to restore:
 
 ```
 /pickup [filename]
 ```
 
-예: `/pickup 2026-01-21-implement-auth`
+Example: `/pickup 2026-01-21-oauth-implementation`
 
-### 3. 컨텍스트 복원 확인
+### 3. Context Restoration
 
-핸드오프 문서 읽은 후:
-- Pending Tasks 확인
-- Current Work 파악
-- Next Steps 검토
+After reading the handoff document:
+1. Review **Pending Tasks** first
+2. Check **Current Work** section
+3. Note **Failed Approaches** to avoid repeating
+4. Confirm **Next Steps** are still valid
 
 ---
 
-## Output
+## Verification Steps
 
-```markdown
-## 세션 컨텍스트 복원 완료
-
-### 이전 작업 요약
-[요약 내용]
-
-### 다음 작업
-1. [작업 1]
-2. [작업 2]
-
-### 관련 파일
-- [파일 목록]
-
-이어서 작업할까요?
-```
+After pickup, verify:
+- [ ] File paths still exist
+- [ ] No conflicting changes made
+- [ ] Pending tasks are still relevant
+- [ ] Dependencies haven't changed
 
 ---
 
 ## Best Practices
 
-- ✅ 핸드오프 문서 전체 읽기
-- ✅ Pending Tasks부터 시작
-- ✅ 이전 실패 접근법 확인
-- ❌ 핸드오프 없이 추측으로 이어가기 X
+- ✅ Read entire handoff document
+- ✅ Start with Pending Tasks
+- ✅ Check for code changes since handoff
+- ✅ Review Failed Approaches
+- ❌ Don't assume context without reading
+- ❌ Don't skip Failed Approaches section
 
 ---
 
-## Related
+## Related Workflows
 
-- `/handoff` - 세션 컨텍스트 저장
+- `/handoff` - Save session context
+- `/learn` - Extract patterns

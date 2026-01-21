@@ -4,86 +4,106 @@ description: Code review checklist for quality and security
 
 # Code Review Workflow
 
-Systematic review with verification commands.
+Security and quality review before commit/PR.
+
+## When to Use
+
+- Before committing changes
+- Before creating PR
+- Security audit
+- Pre-team review self-check
 
 ---
 
-## Pre-Review Verification
+## Process
+
+### 1. Check Staged Changes
 
 // turbo
 ```bash
-npm run build && npm run lint && npm test
+git diff --cached --stat 2>/dev/null || git diff --stat
 ```
 
-- [ ] Build passes
-- [ ] No lint errors
-- [ ] Tests pass
-- [ ] Branch up-to-date with main
+### 2. Security Review (CRITICAL)
 
----
+| Check | Command/Action |
+|-------|---------------|
+| Hardcoded secrets | `grep -rn "password\|api_key\|secret" src/` |
+| SQL injection | Check for string concatenation in queries |
+| XSS vulnerability | Check for `dangerouslySetInnerHTML`, unescaped output |
+| Auth bypass | Verify all routes check authorization |
 
-## Code Quality
+### 3. Code Quality Review
 
-### 1. Readability
-- [ ] Clear variable/function names
-- [ ] Comments for complex logic only
-- [ ] Consistent style
-- [ ] No dead code
+**Critical Issues (Block commit):**
+- [ ] No hardcoded secrets
+- [ ] No SQL/XSS vulnerabilities
+- [ ] All inputs validated
+- [ ] Proper error handling
 
-### 2. Architecture
-- [ ] SOLID principles followed
-- [ ] DRY - no duplication
-- [ ] KISS - simple solutions
-- [ ] Proper separation of concerns
+**High Priority:**
+- [ ] Functions < 50 lines
+- [ ] Files < 800 lines
+- [ ] Nesting depth < 4 levels
+- [ ] No `console.log` in production code
+- [ ] No TODO/FIXME without issue reference
 
-### 3. Error Handling
-- [ ] All errors caught and handled
-- [ ] User-friendly error messages
-- [ ] Appropriate logging
+**Medium Priority:**
+- [ ] Immutable patterns used
+- [ ] Proper TypeScript types (no `any`)
+- [ ] Tests added for new code
+- [ ] Accessibility considered
 
----
+### 4. Generate Review Report
 
-## Security Audit
+```markdown
+## Code Review Report
 
-// turbo
-```bash
-# Check for secrets
-git diff origin/main | grep -iE "(password|secret|api_key|token)" || echo "No secrets found"
+### 🔴 CRITICAL (Must fix before commit)
+- [File:Line] Issue description
 
-# Check dependencies
-npm audit
+### 🟠 HIGH (Should fix)
+- [File:Line] Issue description
+
+### 🟡 MEDIUM (Recommended)
+- [File:Line] Issue description
+
+### Summary
+- CRITICAL: X
+- HIGH: X
+- MEDIUM: X
+
+**Verdict**: [APPROVE / REQUEST CHANGES]
 ```
 
-**OWASP Quick Check:**
-
-| Risk | Check | Verified |
-|------|-------|----------|
-| Injection | Parameterized queries? | [ ] |
-| XSS | Output encoded? | [ ] |
-| Auth | Proper session handling? | [ ] |
-| Secrets | No hardcoded credentials? | [ ] |
-| Access | Authorization checks? | [ ] |
-
 ---
 
-## Performance
+## Security Checklist
 
-// turbo
-```bash
-# Check for N+1 queries (if applicable)
-grep -rn "\.find\|\.query" --include="*.ts" --include="*.js" | head -20
+```
+[ ] No hardcoded secrets (API keys, passwords, tokens)
+[ ] SQL injection prevented (parameterized queries)
+[ ] XSS prevented (sanitized output)
+[ ] CSRF protection enabled
+[ ] Input validation on all user inputs
+[ ] Error messages don't leak sensitive info
+[ ] Rate limiting considered
+[ ] Authentication/authorization verified
 ```
 
-- [ ] No N+1 query problems
-- [ ] Appropriate caching
-- [ ] Efficient algorithms
-- [ ] No memory leaks
-- [ ] Lazy loading where needed
+---
+
+## Best Practices
+
+- ✅ Run frequently (small batches)
+- ✅ Fix CRITICAL issues immediately
+- ✅ Automate with pre-commit hooks
+- ❌ Never commit with CRITICAL issues
+- ❌ Don't skip security checks
 
 ---
 
-## Final Steps
+## Related Workflows
 
-1. Provide constructive feedback
-2. Approve or request changes
-3. Follow up on requested changes
+- `/create-pr` - After review passes
+- `/testing` - Ensure test coverage

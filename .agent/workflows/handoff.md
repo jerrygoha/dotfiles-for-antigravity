@@ -4,66 +4,86 @@ description: Save session context for continuation in new session (100K+ tokens)
 
 # Handoff Workflow
 
-세션 컨텍스트를 저장하여 새 세션에서 이어서 작업할 수 있게 합니다.
+Save session context to continue work in a new session.
 
 ## When to Use
 
-- 100K 토큰 초과 예상 시
-- 장시간 작업 중단 시
-- 마일스톤 완료 시
-- 복잡한 디버깅 진행 중
+- Session approaching 100K+ tokens
+- Complex debugging in progress
+- Milestone completed
+- Stopping work temporarily
 
 ---
 
 ## Process
 
-### 1. 핸드오프 문서 생성
+### 1. Create Handoff Document
 
 Save to: `.agent/handoffs/YYYY-MM-DD-[slug].md`
 
-### 2. 문서 구조
+### 2. Document Structure
 
 ```markdown
 # [Readable Summary]
 
 ## 1. Primary Request and Intent
-[사용자의 원래 요청 및 의도]
+[Original user request and goal]
 
 ## 2. Key Technical Concepts
-- [핵심 개념 1]
-- [핵심 개념 2]
+- [Concept 1]
+- [Concept 2]
 
 ## 3. Files and Code Sections
-### [파일명]
-- **Why important**: [중요한 이유]
-- **Changes made**: [변경 사항]
+### [filename]
+- **Why important**: [Reason]
+- **Changes made**: [Changes]
 
 ## 4. Problem Solving
-[해결한 문제 및 진행 중인 트러블슈팅]
+[Problems solved and ongoing troubleshooting]
 
 ## 5. Pending Tasks
-- [ ] 미완료 작업 1
-- [ ] 미완료 작업 2
+- [ ] Task 1
+- [ ] Task 2
 
 ## 6. Current Work
-[핸드오프 직전 작업 중이던 내용]
+[Work in progress at handoff time]
 
 ## 7. Next Steps
-[권장 다음 작업]
+[Recommended next actions]
+
+## 8. Failed Approaches (Important!)
+- [Approach that didn't work and why]
 ```
+
+---
+
+## What to Include
+
+**MUST include:**
+- Primary intent and context
+- File paths (not full code)
+- Pending tasks with clear descriptions
+- Failed approaches to avoid repeating
+
+**DON'T include:**
+- Full code blocks (use paths instead)
+- Obvious information
+- Completed/irrelevant context
 
 ---
 
 ## Best Practices
 
-- ✅ 중요 결정 사항 기록
-- ✅ 실패한 접근법도 기록 (반복 방지)
-- ✅ 파일 경로 명확히 기재
-- ❌ 전체 코드 복사 X (경로만 기재)
+- ✅ Record key decisions made
+- ✅ Include failed approaches (prevent repeating)
+- ✅ Use exact file paths
+- ✅ List specific pending tasks
+- ❌ Don't copy entire code blocks
+- ❌ Don't include completed context
 
 ---
 
-## Related
+## Related Workflows
 
-- `/pickup` - 핸드오프 문서로 세션 복원
-- `/learn` - 세션에서 패턴 추출
+- `/pickup` - Restore session from handoff
+- `/learn` - Extract patterns from session

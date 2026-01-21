@@ -14,7 +14,7 @@ Comprehensive testing strategy including advanced techniques.
 
 ```
 tests/
-├── unit/           # Fast, isolated (< 100ms each)
+├── unit/           # Fast, isolated (<100ms each)
 ├── integration/    # External dependencies
 ├── e2e/            # Full user flows
 └── fixtures/       # Test data and mocks
@@ -33,7 +33,7 @@ tests/
 ### Best Practices
 - **One assertion per test** (when practical)
 - **Descriptive names**: `should_return_X_when_Y`
-- **Test factories** for consistent data
+- **Test factories** for consistent test data
 - **Mock boundaries**, not internals
 
 ### Example
@@ -90,7 +90,7 @@ describe('Edge Cases', () => {
 
 ## Property-Based Testing
 
-**Instead of specific examples, define properties that always hold.**
+**Define properties that always hold, not just examples.**
 
 ```javascript
 import fc from 'fast-check';
@@ -99,10 +99,7 @@ describe('Property-based: sort function', () => {
   it('should preserve array length', () => {
     fc.assert(fc.property(
       fc.array(fc.integer()),
-      (arr) => {
-        const sorted = sort(arr);
-        return sorted.length === arr.length;
-      }
+      (arr) => sort(arr).length === arr.length
     ));
   });
   
@@ -121,26 +118,6 @@ describe('Property-based: sort function', () => {
 
 ---
 
-## Mutation Testing Awareness
-
-**Concept**: Verify tests catch bugs by introducing mutations.
-
-```bash
-# Using Stryker (JavaScript)
-npx stryker run
-
-# Interpret results
-# - Killed mutants = Good tests
-# - Survived mutants = Weak tests
-```
-
-**Common Weak Tests:**
-- Missing boundary checks
-- Only testing happy path
-- Assertions that pass for any value
-
----
-
 ## Integration Testing
 
 ### What to Test
@@ -153,16 +130,6 @@ npx stryker run
 - Clean up after each test (`afterEach`)
 - Test both success and error paths
 - Mock external APIs, not internal modules
-
----
-
-## Test Coverage Matrix
-
-| Module | Unit | Integration | E2E | Edge Cases |
-|--------|------|-------------|-----|------------|
-| Auth | ✅ | ✅ | ✅ | ✅ |
-| API | ✅ | ✅ | - | ✅ |
-| Utils | ✅ | - | - | ✅ |
 
 ---
 
@@ -193,3 +160,11 @@ npm test -- --testPathPattern="filename"
 | Business Logic | 80%+ | 75%+ |
 | Utilities | 100% | 100% |
 | UI Components | 70%+ | 60%+ |
+
+---
+
+## Related Workflows
+
+- `/tdd` - Test-driven development for new features
+- `/test-coverage` - Analyze and improve coverage
+- `/e2e` - End-to-end testing

@@ -1,70 +1,111 @@
-# /learn - Extract Reusable Patterns
+---
+description: Extract reusable patterns from current session
+---
 
-Analyze the current session and extract any patterns worth saving as skills.
+# Learn Workflow
 
-## Trigger
-
-Run `/learn` at any point during a session when you've solved a non-trivial problem.
-
-## What to Extract
-
-Look for:
-
-1. **Error Resolution Patterns**
-   - What error occurred?
-   - What was the root cause?
-   - What fixed it?
-   - Is this reusable for similar errors?
-
-2. **Debugging Techniques**
-   - Non-obvious debugging steps
-   - Tool combinations that worked
-   - Diagnostic patterns
-
-3. **Workarounds**
-   - Library quirks
-   - API limitations
-   - Version-specific fixes
-
-4. **Project-Specific Patterns**
-   - Codebase conventions discovered
-   - Architecture decisions made
-   - Integration patterns
-
-## Output Format
-
-Create a skill file at `~/.claude/skills/learned/[pattern-name].md`:
-
-```markdown
-# [Descriptive Pattern Name]
-
-**Extracted:** [Date]
-**Context:** [Brief description of when this applies]
-
-## Problem
-[What problem this solves - be specific]
-
-## Solution
-[The pattern/technique/workaround]
-
-## Example
-[Code example if applicable]
+Extract and save reusable patterns from problems solved in current session.
 
 ## When to Use
-[Trigger conditions - what should activate this skill]
-```
+
+- After solving complex bug
+- Discovered useful pattern
+- Found library quirk/workaround
+- Created reusable solution
+
+**Don't use for:**
+- Simple typo fixes
+- Generic coding patterns (well-documented)
+- One-time solutions
+
+---
 
 ## Process
 
-1. Review the session for extractable patterns
-2. Identify the most valuable/reusable insight
-3. Draft the skill file
-4. Ask user to confirm before saving
-5. Save to `~/.claude/skills/learned/`
+### 1. Identify Pattern Worth Saving
 
-## Notes
+Ask yourself:
+- Will this help in future projects?
+- Was this hard to figure out?
+- Is this not well-documented elsewhere?
 
-- Don't extract trivial fixes (typos, simple syntax errors)
-- Don't extract one-time issues (specific API outages, etc.)
-- Focus on patterns that will save time in future sessions
-- Keep skills focused - one pattern per skill
+### 2. Create Learning Document
+
+Save to: `.agent/learnings/[pattern-name].md`
+
+```markdown
+# [Pattern Name]
+
+**Extracted:** YYYY-MM-DD
+**Context:** [When this pattern applies]
+
+## Problem
+[What problem does this solve?]
+
+## Solution
+\`\`\`typescript
+// Code example
+\`\`\`
+
+## When to Use
+- [Condition 1]
+- [Condition 2]
+
+## Common Mistakes
+- [Mistake to avoid]
+
+## Related Files
+- [File paths where pattern was applied]
+
+## Tags
+#tag1 #tag2
+```
+
+### 3. Example Pattern
+
+```markdown
+# Next.js Hydration Mismatch Fix
+
+**Extracted:** 2026-01-21
+**Context:** SSR/CSR mismatch issues
+
+## Problem
+Accessing browser APIs during SSR causes hydration errors.
+
+## Solution
+\`\`\`typescript
+const [mounted, setMounted] = useState(false)
+
+useEffect(() => {
+  setMounted(true)
+}, [])
+
+if (!mounted) return <Skeleton />
+\`\`\`
+
+## When to Use
+- Accessing `window` or `document`
+- Using `localStorage`
+- Browser-only APIs
+
+## Tags
+#nextjs #hydration #ssr
+```
+
+---
+
+## Best Practices
+
+- ✅ Extract immediately after solving
+- ✅ Make patterns reusable (not project-specific)
+- ✅ Include working code examples
+- ✅ Add tags for searchability
+- ❌ Don't save trivial fixes
+- ❌ Don't include project-specific details
+
+---
+
+## Related Workflows
+
+- `/handoff` - Save session context (different purpose)
+- `/debug` - Often leads to learnings

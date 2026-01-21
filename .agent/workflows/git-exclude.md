@@ -4,19 +4,31 @@ description: Add files or patterns to Git exclude (local only, not shared)
 
 # Git Exclude Workflow
 
-Add files or patterns to `.git/info/exclude` for local-only git ignores.
+Add files/patterns to `.git/info/exclude` for local-only git ignores.
 
 ## When to Use
 
-Use git exclude when you want to ignore files **locally** without:
+Ignore files **locally** without:
 - Modifying `.gitignore` (which is committed)
 - Affecting other team members
 
-Common use cases:
+**Common Use Cases:**
 - Personal IDE settings
 - Local test files
-- Temporary debugging files
-- Machine-specific configurations
+- Temporary debug files
+- Machine-specific configs
+
+---
+
+## git exclude vs .gitignore
+
+| Aspect | `.git/info/exclude` | `.gitignore` |
+|--------|---------------------|--------------|
+| Scope | Local only | Shared with team |
+| Committed | No | Yes |
+| Use case | Personal preferences | Project requirements |
+
+---
 
 ## Process
 
@@ -24,7 +36,7 @@ Common use cases:
 
 // turbo
 ```bash
-cat .git/info/exclude 2>/dev/null || echo "No excludes file yet"
+cat .git/info/exclude 2>/dev/null || echo "No excludes file"
 ```
 
 ### 2. Add Pattern
@@ -44,9 +56,10 @@ echo "my-local-dir/" >> .git/info/exclude
 
 // turbo
 ```bash
-# Check if file is now ignored
-git status --ignored
+git status --ignored | head -20
 ```
+
+---
 
 ## Pattern Syntax
 
@@ -58,33 +71,37 @@ git status --ignored
 | `!important.txt` | Negate (don't ignore) |
 | `**/temp` | Match in any subdirectory |
 
+---
+
 ## Examples
 
 ```bash
-# Ignore all .local files
-echo "*.local" >> .git/info/exclude
+# Personal IDE settings
+echo ".idea/" >> .git/info/exclude
+echo ".vscode/settings.json" >> .git/info/exclude
 
-# Ignore personal notes
+# Local notes
 echo "NOTES.md" >> .git/info/exclude
+echo "TODO.local.md" >> .git/info/exclude
 
-# Ignore local environment override
-echo ".env.local" >> .git/info/exclude
+# Local environment override
+echo ".env.local.backup" >> .git/info/exclude
 
-# Ignore personal test directory
-echo "my-tests/" >> .git/info/exclude
+# Debug files
+echo "debug-*.log" >> .git/info/exclude
 ```
 
-## Difference: exclude vs .gitignore
-
-| Aspect | `.git/info/exclude` | `.gitignore` |
-|--------|---------------------|--------------|
-| Scope | Local only | Shared with team |
-| Committed | No | Yes |
-| Use case | Personal preferences | Project requirements |
+---
 
 ## Best Practices
 
 - ✅ Use for personal/machine-specific ignores
-- ✅ Document why you're excluding something
-- ❌ Don't use for project-wide ignores (use .gitignore)
-- ❌ Don't exclude files others might need to see
+- ✅ Document why you're excluding (comment above pattern)
+- ❌ Don't use for project-wide ignores (use `.gitignore`)
+- ❌ Don't exclude files others might need to track
+
+---
+
+## Related Workflows
+
+- `/git-workflow` - General git operations

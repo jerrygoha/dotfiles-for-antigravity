@@ -4,9 +4,7 @@ description: Create well-structured pull requests with proper documentation
 
 # Create PR Workflow
 
-High-quality PRs that are easy to review.
-
----
+Create high-quality PRs that are easy to review.
 
 ## Prerequisites
 
@@ -33,11 +31,11 @@ git log origin/main..HEAD --oneline
 git diff origin/main --stat
 ```
 
-### 3. PR Description
+### 3. Create PR Description
 
 ```markdown
 ## Summary
-[Brief description]
+[Brief description of what this PR does]
 
 ## Changes
 - [Change 1]
@@ -47,45 +45,76 @@ git diff origin/main --stat
 - [ ] Bug fix
 - [ ] Feature
 - [ ] Breaking change
-- [ ] Docs
+- [ ] Documentation
 
 ## Testing
-- [ ] Unit tests
-- [ ] Integration tests
-- [ ] Manual testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
 
 ## Screenshots
-[If applicable]
+[If applicable for UI changes]
 
-## Related
+## Related Issues
 Closes #[issue]
 
 ## Checklist
-- [ ] Style guidelines followed
+- [ ] Code follows style guidelines
 - [ ] Self-reviewed
-- [ ] Docs updated
+- [ ] Documentation updated
+- [ ] No console.log or debug code
 ```
 
 ### 4. Create PR
 
 // turbo
 ```bash
-gh pr create
+gh pr create --fill
 ```
 
 ### 5. Post-Creation
 
 ```bash
+# Add reviewers
 gh pr edit --add-reviewer @username
+
+# Add labels
 gh pr edit --add-label "enhancement"
 ```
 
 ---
 
+## PR Title Convention
+
+Format: `<type>(<scope>): <description>`
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `refactor`: Code refactoring
+- `test`: Adding tests
+- `chore`: Maintenance
+
+**Examples:**
+- `feat(auth): add OAuth2 login support`
+- `fix(api): handle null response correctly`
+
+---
+
 ## Best Practices
 
-- ✅ Small, focused PRs
+- ✅ Small, focused PRs (< 400 lines ideal)
 - ✅ One concern per PR
-- ✅ Clear title
-- ✅ Screenshots for UI
+- ✅ Clear, descriptive title
+- ✅ Screenshots for UI changes
+- ✅ Link related issues
 - ❌ Don't mix refactoring with features
+- ❌ Don't include unrelated changes
+
+---
+
+## Related Workflows
+
+- `/code-review` - Self-review before PR
+- `/testing` - Ensure tests pass
