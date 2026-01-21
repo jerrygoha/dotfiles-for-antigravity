@@ -1,30 +1,18 @@
-# /create-workflow 완벽 상세 가이드
+# /create-workflow 가이드
 
 > 새로운 워크플로우 파일을 생성하는 워크플로우
 
 ---
 
-## 📌 개요 및 목적
+## 📌 언제 사용하나요?
 
-`/create-workflow`는 **새로운 커스텀 워크플로우**를 올바른 형식으로 생성하는 워크플로우입니다.
-
----
-
-## 🎯 언제 사용하나요?
-
-### ✅ 이럴 때 사용하세요
-
-| 상황 | 예시 |
-|------|------|
-| 반복 작업 자동화 | "매번 하는 작업 워크플로우로" |
-| 팀 표준화 | "팀 공통 워크플로우 필요" |
-| 프로젝트 특화 | "이 프로젝트 전용 워크플로우" |
+- 반복 작업 자동화
+- 팀 표준화
+- 프로젝트 특화 워크플로우
 
 ---
 
-## 📤 기대 결과물
-
-### 워크플로우 템플릿
+## 📤 워크플로우 템플릿
 
 ```markdown
 ---
@@ -36,93 +24,58 @@ description: [한 줄 설명]
 [언제 사용하는지 설명]
 
 ## Prerequisites
-
-- [전제 조건 1]
-- [전제 조건 2]
+- 전제조건
 
 ## Process
 
 ### Phase 1: [Name]
-
-1. [Step 1]
-2. [Step 2]
+1. Step 1
+2. Step 2
 
 // turbo
 \`\`\`bash
-[자동 실행 가능한 안전한 명령]
+[자동 실행 안전한 명령]
 \`\`\`
 
-### Phase 2: [Name]
-
-1. [Step 1]
-2. [Step 2]
-
 ## Output
-
-[워크플로우 결과물]
+[결과물]
 
 ## Best Practices
-
 - ✅ 이렇게 하세요
 - ❌ 이렇게 하지 마세요
+
+## Related Workflows
+- /workflow-name
 ```
 
 ---
 
-## 📖 상세 사용법
-
-### Step 1: 호출
-
-```
-/create-workflow 배포 전 체크리스트 워크플로우 만들어줘
-```
-
-### Step 2: 내용 확인
-
-에이전트가 생성한 워크플로우 검토
-
-### Step 3: 저장 위치 확인
-
-```
-.agent/workflows/[workflow-name].md
-```
-
-### Step 4: 테스트
-
-```
-/[workflow-name]
-```
-
----
-
-## ⚠️ `// turbo` 어노테이션
+## 📤 `// turbo` 어노테이션
 
 명령 블록 위에 `// turbo` 추가 시 자동 실행:
 
-**자동 실행 가능:**
-- ✅ 읽기 전용 (ls, cat, grep)
-- ✅ 안전한 명령 (npm test, build)
+**✅ 자동 실행 가능:**
+- 읽기 전용 (ls, cat, grep)
+- 안전한 명령 (npm test, npm run build)
 
-**자동 실행 금지:**
-- ❌ 삭제 명령 (rm, drop)
-- ❌ 시스템 변경 (install)
-- ❌ 외부 요청 (curl POST)
-
----
-
-## ✅ 워크플로우 체크리스트
-
-- [ ] YAML frontmatter 있음
-- [ ] description이 명확함
-- [ ] 단계가 구체적임
-- [ ] 안전한 명령만 turbo
-- [ ] 테스트 완료
+**❌ 자동 실행 금지:**
+- 삭제 명령 (rm, drop)
+- 시스템 변경 (install)
+- 외부 요청 (curl POST)
 
 ---
 
-## 💡 프로 팁
+## 📤 파일 위치
 
-1. **작은 단위**: 한 가지 목적만
-2. **재사용 가능**: 범용적으로 작성
-3. **문서화**: 언제 사용할지 명확히
-4. **테스트**: 실제로 실행해보기
+| 용도 | 위치 |
+|------|------|
+| 프로젝트 특화 | `.agent/workflows/[name].md` |
+| 공유 (dotfiles) | `dotfiles-for-antigravity/.agent/workflows/` |
+
+---
+
+## ✅ 네이밍 컨벤션
+
+- kebab-case 사용: `create-pr.md`, `code-review.md`
+- 동사 사용: `create-`, `fix-`, `run-`, `debug-`
+- 간결하고 명확하게

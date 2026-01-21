@@ -1,119 +1,52 @@
-# /git-workflow 완벽 상세 가이드
+# /git-workflow 가이드
 
 > 브랜치, 커밋, PR 관리를 위한 Git 워크플로우
 
 ---
 
-## 📌 개요 및 목적
+## 📤 브랜치 네이밍
 
-`/git-workflow`는 **일관된 Git 사용법**을 안내하는 워크플로우입니다.
-
----
-
-## 🎯 언제 사용하나요?
-
-### ✅ 이럴 때 사용하세요
-
-| 상황 | 예시 |
-|------|------|
-| 새 브랜치 생성 | "기능 브랜치 만들어야 해" |
-| 커밋 메시지 작성 | "커밋 메시지 도와줘" |
-| PR 워크플로우 | "PR 과정 알려줘" |
-| 브랜치 전략 | "브랜치 이름 컨벤션" |
+| Type | 형식 | 예시 |
+|------|------|------|
+| Feature | `feat/설명` | `feat/user-auth` |
+| Bug fix | `fix/설명` | `fix/login-error` |
+| Refactor | `refactor/설명` | `refactor/api-layer` |
+| Docs | `docs/설명` | `docs/readme-update` |
+| Test | `test/설명` | `test/add-unit-tests` |
 
 ---
 
-## 📤 기대 결과물
+## 📤 커밋 메시지 컨벤션
 
-### 브랜치 생성
-
-```bash
-git checkout main && git pull origin main
-git checkout -b feat/user-authentication
-```
-
-### 커밋 메시지
+**형식**: `<type>(<scope>): <description>`
 
 ```
-<type>(<scope>): <description>
-
-[optional body]
+feat(auth): add OAuth2 login support
+fix(api): handle null response correctly
+docs: update README with setup steps
+refactor(db): optimize query performance
 ```
 
-**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-**Examples:**
-- `feat(auth): add OAuth2 login support`
-- `fix(api): handle null response correctly`
-
-### 브랜치 네이밍
-
-| Type | Format | Example |
-|------|--------|---------|
-| Feature | `feat/description` | `feat/user-auth` |
-| Bug fix | `fix/description` | `fix/login-error` |
-| Refactor | `refactor/description` | `refactor/api-layer` |
-| Docs | `docs/description` | `docs/readme-update` |
+**규칙:**
+- 명령형 사용 ("add" not "added")
+- 첫 줄 72자 미만
+- 이슈 참조: `Closes #123`
 
 ---
 
-## 📖 상세 사용법
+## 📤 Merge 전략
 
-### Step 1: 브랜치 생성
+| 전략 | 언제 사용 |
+|------|----------|
+| Squash merge | Feature 브랜치 (깔끔한 히스토리) |
+| Rebase merge | 장기 실행 브랜치 |
+| Merge commit | 릴리스 브랜치 |
 
-```
-/git-workflow 새 기능 브랜치 만들어줘. OAuth 인증 기능이야.
-```
-
-### Step 2: 커밋 메시지 작성
-
-```
-/git-workflow 커밋 메시지 작성해줘. Google OAuth 콜백 처리 추가했어.
-```
-
-### Step 3: PR 생성 시
-
-```
-/create-pr
-```
+**Merge 후:** 브랜치 삭제
 
 ---
 
-## ⚠️ 이런 상황엔 다른 워크플로우를!
+## 🔗 관련 워크플로우
 
-| 상황 | 대신 사용할 워크플로우 |
-|------|----------------------|
-| PR 생성 | `/create-pr` |
-| 로컬 파일 제외 | `/git-exclude` |
-
----
-
-## 🔗 함께 사용하면 좋은 워크플로우
-
-```
-/git-workflow        # 브랜치 생성
-    ↓
-기능 개발
-    ↓
-/code-review         # 리뷰
-    ↓
-/create-pr           # PR
-```
-
----
-
-## ✅ 커밋 체크리스트
-
-- [ ] 하나의 논리적 변경만 포함
-- [ ] 테스트 통과
-- [ ] 커밋 메시지가 명확
-- [ ] 코드 리뷰 고려
-
----
-
-## 💡 프로 팁
-
-1. **작은 커밋**: 의미 있는 작은 단위로
-2. **컨벤션 준수**: Conventional Commits
-3. **Squash Merge**: Feature 브랜치는 squash
-4. **브랜치 삭제**: Merge 후 정리
+- `/create-pr` - PR 생성
+- `/code-review` - 커밋 전 리뷰

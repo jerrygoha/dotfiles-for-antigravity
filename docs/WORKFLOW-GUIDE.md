@@ -1,6 +1,6 @@
-# 워크플로우 완벽 상세 가이드
+# 워크플로우 가이드
 
-> 각 워크플로우별 상세한 사용법, 예상 결과물, 권장 조합을 안내합니다.
+> 각 워크플로우별 상세한 사용법 안내
 
 ---
 
@@ -10,85 +10,83 @@
 
 | 워크플로우 | 설명 | 가이드 |
 |-----------|------|--------|
-| `/write-plan` | 구현 계획 수립 | [상세 가이드](guides/write-plan.md) |
-| `/execute-plan` | 계획 단계별 실행 | [상세 가이드](guides/execute-plan.md) |
-| `/brainstorm` | 아이디어 탐색 & 비교 | [상세 가이드](guides/brainstorm.md) |
+| `/write-plan` | 구현 계획 수립 | [가이드](guides/write-plan.md) |
+| `/execute-plan` | 계획 단계별 실행 | [가이드](guides/execute-plan.md) |
+| `/brainstorm` | 아이디어 탐색 & 비교 | [가이드](guides/brainstorm.md) |
 
 ### 🧪 테스트 & 디버깅
 
 | 워크플로우 | 설명 | 가이드 |
 |-----------|------|--------|
-| `/tdd` | RED-GREEN-REFACTOR 개발 | [상세 가이드](guides/tdd.md) |
-| `/testing` | 고급 테스팅 기법 | [상세 가이드](guides/testing.md) |
-| `/e2e` | Playwright E2E 테스트 | [상세 가이드](guides/e2e.md) |
-| `/test-coverage` | 커버리지 분석 & 보강 | [상세 가이드](guides/test-coverage.md) |
-| `/debug` | TDD 기반 체계적 디버깅 | [상세 가이드](guides/debug.md) |
+| `/tdd` | RED-GREEN-REFACTOR 개발 | [가이드](guides/tdd.md) |
+| `/testing` | 고급 테스팅 기법 | [가이드](guides/testing.md) |
+| `/e2e` | Playwright E2E 테스트 | [가이드](guides/e2e.md) |
+| `/test-coverage` | 커버리지 분석 & 보강 | [가이드](guides/test-coverage.md) |
+| `/debug` | TDD 기반 체계적 디버깅 | [가이드](guides/debug.md) |
 
-### � 리뷰 & 정리
-
-| 워크플로우 | 설명 | 가이드 |
-|-----------|------|--------|
-| `/code-review` | 보안 및 품질 리뷰 | [상세 가이드](guides/code-review.md) |
-| `/refactor-clean` | 데드 코드 정리 | [상세 가이드](guides/refactor-clean.md) |
-| `/fix-ci` | CI/CD 실패 해결 | [상세 가이드](guides/fix-ci.md) |
-
-### � 문서화 & 학습
+### 🔍 리뷰 & 정리
 
 | 워크플로우 | 설명 | 가이드 |
 |-----------|------|--------|
-| `/research` | 다중 출처 기술 조사 | [상세 가이드](guides/research.md) |
-| `/learn` | 패턴 추출 & 저장 | [상세 가이드](guides/learn.md) |
-| `/update-docs` | 문서 자동 생성 | [상세 가이드](guides/update-docs.md) |
-| `/update-codemaps` | 아키텍처 문서화 | [상세 가이드](guides/update-codemaps.md) |
+| `/code-review` | 보안 및 품질 리뷰 | [가이드](guides/code-review.md) |
+| `/refactor-clean` | 데드 코드 정리 | [가이드](guides/refactor-clean.md) |
+| `/fix-ci` | CI/CD 실패 해결 | [가이드](guides/fix-ci.md) |
 
-### � Git & 세션 관리
+### 📝 문서화 & 학습
 
 | 워크플로우 | 설명 | 가이드 |
 |-----------|------|--------|
-| `/git-workflow` | 브랜치, 커밋 관리 | [상세 가이드](guides/git-workflow.md) |
-| `/git-exclude` | 로컬 전용 ignore | [상세 가이드](guides/git-exclude.md) |
-| `/create-pr` | PR 생성 | [상세 가이드](guides/create-pr.md) |
-| `/handoff` | 세션 상태 저장 | [상세 가이드](guides/handoff.md) |
-| `/pickup` | 세션 복원 | [상세 가이드](guides/pickup.md) |
+| `/research` | 다중 출처 기술 조사 | [가이드](guides/research.md) |
+| `/learn` | 패턴 추출 & 저장 | [가이드](guides/learn.md) |
+| `/update-docs` | 문서 자동 생성 | [가이드](guides/update-docs.md) |
+| `/update-codemaps` | 아키텍처 문서화 | [가이드](guides/update-codemaps.md) |
+
+### 🔄 Git & 세션 관리
+
+| 워크플로우 | 설명 | 가이드 |
+|-----------|------|--------|
+| `/git-workflow` | 브랜치, 커밋 관리 | [가이드](guides/git-workflow.md) |
+| `/git-exclude` | 로컬 전용 ignore | [가이드](guides/git-exclude.md) |
+| `/create-pr` | PR 생성 | [가이드](guides/create-pr.md) |
+| `/handoff` | 세션 상태 저장 | [가이드](guides/handoff.md) |
+| `/pickup` | 세션 복원 | [가이드](guides/pickup.md) |
 
 ### 🛠 유틸리티
 
 | 워크플로우 | 설명 | 가이드 |
 |-----------|------|--------|
-| `/create-workflow` | 새 워크플로우 생성 | [상세 가이드](guides/create-workflow.md) |
+| `/create-workflow` | 새 워크플로우 생성 | [가이드](guides/create-workflow.md) |
 
 ---
 
-## � 상황별 권장 흐름
+## 🚀 상황별 권장 흐름
 
 ### 새 기능 개발
 
 ```
-/research (필요시)  →  /brainstorm (옵션)  →  /write-plan
+/research (필요시) → /brainstorm (옵션) → /write-plan
          ↓
-    /execute-plan  →  /tdd  →  /code-review  →  /create-pr
+    /execute-plan → /tdd → /code-review → /create-pr
 ```
 
 ### 버그 수정
 
 ```
-/debug  →  /tdd (테스트 보강)  →  /code-review  →  /learn
+/debug → /tdd (테스트 보강) → /code-review → /learn
 ```
 
 ### 대규모 리팩토링
 
 ```
-/write-plan  →  /execute-plan (Phase 1)  →  /handoff
+/write-plan → /execute-plan (Phase 1) → /handoff
          ↓
-    /pickup  →  /execute-plan (Phase 2)  →  /refactor-clean
+    /pickup → /execute-plan (Phase 2) → /refactor-clean
 ```
 
 ### 장시간 프로젝트
 
 ```
-작업 시작  →  2-3시간 후  →  /handoff
-         ↓
-    새 세션  →  /pickup  →  계속 작업
+작업 시작 → 2-3시간 후 → /handoff → (새 세션) → /pickup → 계속
 ```
 
 ---
@@ -97,11 +95,11 @@
 
 | 상황 | 추천 워크플로우 |
 |------|----------------|
-| "뭘 만들지 결정 못함" | `/brainstorm` |
-| "어떻게 만들지 계획" | `/write-plan` |
-| "새 함수 만들기" | `/tdd` |
-| "버그 발생" | `/debug` |
-| "커밋 전 확인" | `/code-review` |
-| "빌드 실패" | `/fix-ci` |
-| "테스트 부족" | `/test-coverage` |
-| "세션 길어짐" | `/handoff` → `/pickup` |
+| 뭘 만들지 결정 못함 | `/brainstorm` |
+| 어떻게 만들지 계획 | `/write-plan` |
+| 새 함수 만들기 | `/tdd` |
+| 버그 발생 | `/debug` |
+| 커밋 전 확인 | `/code-review` |
+| 빌드 실패 | `/fix-ci` |
+| 테스트 부족 | `/test-coverage` |
+| 세션 길어짐 | `/handoff` → `/pickup` |
