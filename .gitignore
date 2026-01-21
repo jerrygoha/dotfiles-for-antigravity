@@ -18,3 +18,4 @@ Thumbs.db
 
 # Local configuration (user should create their own)
 *.local.md
+.reference/

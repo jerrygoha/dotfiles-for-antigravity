@@ -1,85 +1,73 @@
 ---
-description: Resume work from a previous handoff session
+description: Restore session context from handoff document
 ---
 
 # Pickup Workflow
 
-Resume work from a previously saved handoff document.
+이전 세션의 핸드오프 문서를 읽고 컨텍스트를 복원합니다.
 
-## Process
+## When to Use
 
-### 1. List Available Handoffs
-
-If no specific handoff is requested, list all available:
-
-// turbo
-```bash
-echo "## Available Handoffs"
-echo ""
-for file in .agent/handoffs/*.md; do
-  if [ -f "$file" ]; then
-    title=$(grep -m 1 "^# " "$file" | sed 's/^# //')
-    basename=$(basename "$file")
-    echo "* \`$basename\`: $title"
-  fi
-done
-echo ""
-echo "To pickup a handoff, use: /pickup <filename>"
-```
-
-### 2. Load Handoff File
-
-When a specific handoff is requested:
-
-1. Locate the file in `.agent/handoffs/`
-2. Handle partial matches or typos
-3. If multiple matches exist, ask user to clarify
-
-### 3. Resume Context
-
-After reading the handoff:
-
-1. **Summarize current state**
-   - What was completed
-   - What is pending
-
-2. **Confirm next steps**
-   - List the recommended next actions from handoff
-   - Ask user if they want to proceed or modify
-
-3. **Begin work**
-   - Continue from where the previous session ended
-
-## Example Usage
-
-```
-User: /pickup
-
-Agent: ## Available Handoffs
-
-* `2024-01-15-implement-auth.md`: Implement Authentication
-* `2024-01-14-fix-api.md`: Fix API Rate Limiting
-
-To pickup a handoff, use: /pickup <filename>
+- 새 세션에서 이전 작업 이어할 때
+- `/handoff`로 저장한 상태 복원 시
 
 ---
 
-User: /pickup implement-auth
+## Process
 
-Agent: Resuming "Implement Authentication" handoff...
+### 1. 핸드오프 문서 확인
 
-## Context Restored
-- Completed: Basic JWT implementation
-- Pending: Refresh token logic, logout endpoint
-
-## Recommended Next Step
-Implement refresh token rotation
-
-Shall I continue with this approach?
+// turbo
+```bash
+ls -la .agent/handoffs/*.md 2>/dev/null || echo "No handoffs found"
 ```
 
-## Notes
+### 2. 문서 읽기
 
-- Handoffs are stored in `.agent/handoffs/`
-- Each handoff includes full context for seamless continuation
-- Use `/handoff` to create new handoff documents
+```
+/pickup [filename]
+```
+
+예: `/pickup 2026-01-21-implement-auth`
+
+### 3. 컨텍스트 복원 확인
+
+핸드오프 문서 읽은 후:
+- Pending Tasks 확인
+- Current Work 파악
+- Next Steps 검토
+
+---
+
+## Output
+
+```markdown
+## 세션 컨텍스트 복원 완료
+
+### 이전 작업 요약
+[요약 내용]
+
+### 다음 작업
+1. [작업 1]
+2. [작업 2]
+
+### 관련 파일
+- [파일 목록]
+
+이어서 작업할까요?
+```
+
+---
+
+## Best Practices
+
+- ✅ 핸드오프 문서 전체 읽기
+- ✅ Pending Tasks부터 시작
+- ✅ 이전 실패 접근법 확인
+- ❌ 핸드오프 없이 추측으로 이어가기 X
+
+---
+
+## Related
+
+- `/handoff` - 세션 컨텍스트 저장

@@ -1,295 +1,161 @@
-# Dotfiles for Antigravity
+# dotfiles-for-antigravity
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+> Antigravity AI 코딩 어시스턴트를 위한 완전한 설정 파일 컬렉션
 
-> **Professional dotfiles system for [Antigravity](https://gemini.google.com/)** - Google's AI-powered agentic coding assistant.
-
-🇰🇷 [한국어 문서 보기](./README_KR.md)
-
----
-
-## ✨ Features
-
-- **14 Workflow Definitions** - Comprehensive `.agent/workflows/` for development automation
-- **8 User Rules Templates** - Pre-configured prompts for different development styles
-- **Global Memory Templates** - Persistent context configurations across projects
-- **Bilingual Documentation** - English & Korean documentation
+[everything-claude-code](https://github.com/affaan-m/everything-claude-code)에서 영감을 받아, Antigravity용으로 최적화된 workflows, rules, skills, agents를 제공합니다.
 
 ---
 
 ## 🚀 Quick Start
 
-### Step 1: Clone This Repository
+### 프로젝트에 적용하기
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/dotfiles-for-antigravity.git
-cd dotfiles-for-antigravity
+# 워크플로우만 복사 (권장)
+cp -r dotfiles-for-antigravity/.agent/workflows your-project/.agent/workflows
+
+# 또는 전체 .agent 디렉토리 복사
+cp -r dotfiles-for-antigravity/.agent your-project/.agent
 ```
 
-### Step 2: Set Up User Rules (One-time Global Setup)
-
-User rules are applied **globally** to all your Antigravity conversations.
-
-1. Open Antigravity settings
-2. Navigate to "User Rules" or "Custom Instructions" section
-3. Copy and paste the content from one of these templates:
-
-```bash
-# View the template you want to use
-cat user-rules/default.md           # Basic professional
-cat user-rules/dev-master.md        # Advanced bilingual (KR/EN)
-cat user-rules/examples/frontend-dev.md  # React/Next.js focused
-```
-
-4. Save your settings
+자세한 내용은 [Quick Start Guide](docs/QUICK-START.md) 참조.
 
 ---
 
-## 📦 Using Dotfiles in a New Project
-
-### Method 1: Copy Workflows to Your Project (Recommended)
-
-For each new project, copy the workflows directory:
-
-```bash
-# Navigate to your project
-cd /path/to/your/project
-
-# Create .agent directory and copy workflows
-mkdir -p .agent
-cp -r /path/to/dotfiles-for-antigravity/.agent/workflows .agent/
-
-# Verify the setup
-ls .agent/workflows/
-```
-
-Your project structure will look like:
-
-```
-your-project/
-├── .agent/
-│   └── workflows/
-│       ├── brainstorm.md
-│       ├── code-review.md
-│       ├── debug.md
-│       └── ... (14 workflow files)
-├── src/
-├── package.json
-└── ...
-```
-
-### Method 2: Symbolic Link (For Development)
-
-If you want workflows to auto-update when you modify the dotfiles:
-
-```bash
-cd /path/to/your/project
-mkdir -p .agent
-ln -s /path/to/dotfiles-for-antigravity/.agent/workflows .agent/workflows
-```
-
-### Method 3: Git Submodule
-
-For team projects where everyone needs the same workflows:
-
-```bash
-cd /path/to/your/project
-git submodule add https://github.com/YOUR_USERNAME/dotfiles-for-antigravity.git .dotfiles
-mkdir -p .agent
-cp -r .dotfiles/.agent/workflows .agent/
-```
-
----
-
-## 🎯 How to Use Workflows
-
-Once workflows are set up in your project, use them with slash commands:
-
-```
-/brainstorm       # Start interactive design refinement
-/debug            # Systematic debugging with root cause analysis
-/write-plan       # Create implementation plan before coding
-/execute-plan     # Execute plan with checkpoints
-/code-review      # Run security and quality checklist
-/create-pr        # Create well-structured pull request
-/handoff          # Save session context for later
-/pickup           # Resume from previous handoff
-```
-
-### Example Workflow Usage
-
-```
-User: /debug
-
-Antigravity: Starting systematic debugging process...
-
-## Phase 1: Reproduce & Observe
-What issue are you experiencing? Please provide:
-1. Expected behavior
-2. Actual behavior
-3. Error messages (if any)
-...
-```
-
----
-
-## 🔧 Project-Specific Customization
-
-### Adding Project Context
-
-Create an `ANTIGRAVITY.md` file in your project root:
-
-```bash
-# Copy the template
-cp /path/to/dotfiles-for-antigravity/ANTIGRAVITY.md /path/to/your/project/
-```
-
-Then customize it with your project-specific information:
-
-```markdown
-# ANTIGRAVITY.md
-
-## Project Overview
-[Your project description]
-
-## Tech Stack
-- Framework: Next.js 14
-- Database: PostgreSQL
-- Styling: Tailwind CSS
-
-## Key Commands
-npm run dev    # Start development server
-npm run test   # Run tests
-npm run build  # Build for production
-
-## Architecture Notes
-[Your project-specific notes]
-```
-
-### Customizing Workflows for Your Project
-
-If you need project-specific workflows:
-
-```bash
-# Create a custom workflow
-touch .agent/workflows/deploy-staging.md
-```
-
-Add your custom workflow:
-
-```markdown
----
-description: Deploy to staging environment
----
-
-# Deploy to Staging
-
-## Prerequisites
-- All tests passing
-- Branch is up to date
-
-## Steps
-// turbo
-1. Run build:
-\`\`\`bash
-npm run build
-\`\`\`
-
-2. Deploy to staging...
-```
-
----
-
-## 📁 Complete Directory Structure
+## 📁 프로젝트 구조
 
 ```
 dotfiles-for-antigravity/
-├── README.md               # English documentation
-├── README_KR.md            # 한국어 문서
-├── ANTIGRAVITY.md          # Agent context template
 ├── .agent/
-│   └── workflows/          # 14 workflow definitions
-│       ├── brainstorm.md
-│       ├── code-review.md
-│       ├── create-pr.md
-│       ├── create-workflow.md
-│       ├── debug.md
-│       ├── execute-plan.md
-│       ├── fix-ci.md
-│       ├── git-exclude.md
-│       ├── git-workflow.md
-│       ├── handoff.md
-│       ├── pickup.md
-│       ├── research.md
-│       ├── testing.md
-│       └── write-plan.md
-├── user-rules/
-│   ├── default.md          # Basic user rules
-│   ├── dev-master.md       # Advanced bilingual prompt
-│   └── examples/
-│       ├── backend-dev.md
-│       ├── devops-engineer.md
-│       ├── frontend-dev.md
-│       ├── korean-dev.md
-│       ├── minimal.md
-│       └── python-dev.md
-├── memory-templates/
-│   └── global-memory.md
-├── CONTRIBUTING.md
-└── LICENSE
+│   └── workflows/           # 슬래시 커맨드 정의
+│       ├── plan.md          # /plan - 구현 계획
+│       ├── tdd.md           # /tdd - TDD 개발
+│       ├── e2e.md           # /e2e - E2E 테스트
+│       ├── code-review.md   # /code-review
+│       ├── build-fix.md     # /build-fix
+│       ├── refactor-clean.md
+│       ├── test-coverage.md
+│       ├── update-docs.md
+│       ├── learn.md         # /learn - 패턴 학습
+│       ├── handoff.md       # /handoff - 세션 저장
+│       └── pickup.md        # /pickup - 세션 복원
+│
+├── user-rules/              # 사용자 규칙 (글로벌 설정)
+│   ├── default.md           # 기본 규칙
+│   ├── rules/               # 상세 규칙
+│   │   ├── security.md
+│   │   ├── coding-style.md
+│   │   ├── testing.md
+│   │   ├── git-workflow.md
+│   │   ├── patterns.md
+│   │   └── session-management.md
+│   ├── skills/              # 도메인 지식
+│   │   ├── coding-standards.md
+│   │   ├── backend-patterns.md
+│   │   └── frontend-patterns.md
+│   ├── agents/              # 에이전트 가이드
+│   │   ├── planner.md
+│   │   ├── architect.md
+│   │   ├── code-reviewer.md
+│   │   └── security-reviewer.md
+│   └── contexts/            # 컨텍스트 모드
+│       ├── dev.md
+│       ├── review.md
+│       └── research.md
+│
+├── docs/                    # 문서
+│   ├── QUICK-START.md       # 빠른 시작 가이드
+│   ├── WORKFLOW-GUIDE.md    # 워크플로우 상세 가이드
+│   ├── SESSION-MANAGEMENT.md # 세션 관리 가이드
+│   └── FILTERED.md          # Claude 전용 기능 목록
+│
+├── _archive/                # 기존 콘텐츠 아카이브
+└── .reference/              # 원본 레포지토리 참조
 ```
 
 ---
 
-## 📋 Configuration Reference
+## 🎯 사용 가능한 워크플로우
 
-### User Rules Templates
+| 커맨드 | 설명 |
+|--------|------|
+| `/plan` | 구현 계획 수립 - 코드 작성 전 확인 대기 |
+| `/tdd` | TDD 개발 - RED → GREEN → REFACTOR |
+| `/e2e` | Playwright E2E 테스트 생성 |
+| `/code-review` | 보안 및 품질 리뷰 |
+| `/build-fix` | 빌드 에러 점진적 수정 |
+| `/refactor-clean` | 데드 코드 정리 |
+| `/test-coverage` | 80%+ 커버리지 달성 |
+| `/update-docs` | 문서 동기화 |
+| `/learn` | 세션에서 패턴 추출 |
+| `/handoff` | 세션 상태 저장 |
+| `/pickup` | 이전 세션 복원 |
 
-| Template | Best For |
-|----------|----------|
-| `default.md` | General development, clean code focus |
-| `dev-master.md` | Korean developers, bilingual projects |
-| `examples/frontend-dev.md` | React, Next.js, Vue projects |
-| `examples/backend-dev.md` | Node.js, Python APIs, microservices |
-| `examples/devops-engineer.md` | Infrastructure, CI/CD, Kubernetes |
-| `examples/python-dev.md` | Python backend, data science, ML |
-| `examples/korean-dev.md` | Korean developers, localized projects |
-| `examples/minimal.md` | Quick tasks, code-first responses |
+---
 
-### Workflow Commands
+## 💡 세션 관리
 
-| Command | When to Use |
-|---------|-------------|
-| `/brainstorm` | Need creative solutions or design ideas |
-| `/write-plan` | Before starting complex features |
-| `/execute-plan` | Work through approved plan systematically |
-| `/debug` | Troubleshooting bugs with unknown cause |
-| `/code-review` | Before merging code, security audit |
-| `/testing` | Writing unit/integration tests |
-| `/create-pr` | Ready to open pull request |
-| `/fix-ci` | CI pipeline is failing |
-| `/git-workflow` | Git operations, branching strategy |
-| `/git-exclude` | Local-only file ignores |
-| `/research` | Need to compare technologies |
-| `/handoff` | Ending session, save context |
-| `/pickup` | Resume previous session |
-| `/create-workflow` | Make custom workflow |
+**100K 토큰** 초과 시 새 세션 전환 권장:
+
+```
+1. /handoff          # 현재 상태 저장
+2. 새 세션 시작
+3. /pickup [file]    # 상태 복원
+```
+
+자세한 내용은 [Session Management Guide](docs/SESSION-MANAGEMENT.md) 참조.
+
+---
+
+## 📋 User Rules
+
+### 핵심 규칙
+
+| 규칙 | 내용 |
+|------|------|
+| [security.md](user-rules/rules/security.md) | 보안 체크리스트, OWASP Top 10 |
+| [coding-style.md](user-rules/rules/coding-style.md) | 불변성, 파일 조직, 에러 핸들링 |
+| [testing.md](user-rules/rules/testing.md) | TDD, 80% 커버리지 |
+| [session-management.md](user-rules/rules/session-management.md) | 100K 토큰 관리 |
+
+### Skills (도메인 지식)
+
+| 스킬 | 내용 |
+|------|------|
+| [coding-standards.md](user-rules/skills/coding-standards.md) | TypeScript/JS 표준 |
+| [backend-patterns.md](user-rules/skills/backend-patterns.md) | API, DB, 캐싱 패턴 |
+| [frontend-patterns.md](user-rules/skills/frontend-patterns.md) | React, Next.js 패턴 |
+
+---
+
+## ⚠️ Claude Code 전용 기능
+
+다음 기능은 Claude Code 전용으로 Antigravity에서는 지원되지 않습니다:
+
+- Hooks (PreToolUse, PostToolUse, Stop)
+- MCP Server Configs
+- Memory Persistence System
+- Strategic Compact
+
+자세한 내용은 [FILTERED.md](docs/FILTERED.md) 참조.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+1. 새 워크플로우: `.agent/workflows/` 에 추가
+2. 새 규칙: `user-rules/rules/` 에 추가
+3. 새 스킬: `user-rules/skills/` 에 추가
 
 ---
 
 ## 📄 License
 
-MIT License - see [LICENSE](./LICENSE) for details.
+MIT License
 
 ---
 
-## 🙏 Acknowledgments
+## 🙏 Credits
 
-- Inspired by [baleen37/dotfiles](https://github.com/baleen37/dotfiles) (Claude Code dotfiles)
-- Built for the [Antigravity](https://gemini.google.com/) community
+- [everything-claude-code](https://github.com/affaan-m/everything-claude-code) - 원본 레포지토리
+- Anthropic Hackathon Winner의 프로덕션 레디 설정들
