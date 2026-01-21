@@ -14,10 +14,19 @@
 # 1. 프로젝트로 이동
 cd /path/to/your-project
 
-# 2. 워크플로우 복사
+# 2. 방법 선택
+
+# 방법 1: workflows만 (최소)
 cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
 
-# 완료! /write-plan, /tdd, /handoff 등 21개 워크플로우 사용 가능
+# 방법 2: workflows + 한국어 가이드 (권장) ⭐
+cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
+cp -r ~/dotfiles-for-antigravity/docs docs
+
+# 방법 3: 전체 복사
+cp -r ~/dotfiles-for-antigravity/.agent .
+cp -r ~/dotfiles-for-antigravity/docs docs
+cp ~/dotfiles-for-antigravity/ANTIGRAVITY.md .
 ```
 
 자세한 내용: [Quick Start Guide](docs/QUICK-START.md)
