@@ -37,18 +37,35 @@ cp ~/dotfiles-for-antigravity/ANTIGRAVITY.md .
 
 ```
 dotfiles-for-antigravity/
-├── .agent/workflows/        # 21개 워크플로우 (영문 - LLM용)
+├── .agent/
+│   ├── workflows/        # 21개 워크플로우 (영문 - LLM용)
+│   └── skills/           # 9개 스킬 (도메인 지식)
 │
 ├── docs/
 │   ├── QUICK-START.md       # 시작 가이드
 │   ├── WORKFLOW-GUIDE.md    # 워크플로우 인덱스
-│   ├── guides/              # 워크플로우별 상세 가이드 (한국어)
+│   ├── SKILLS-SETUP.md      # 스킬 설정 가이드
+│   ├── guides/              # 워크플로우별 가이드 (한국어)
 │   └── SESSION-MANAGEMENT.md
 │
 ├── user-rules/              # 사용자 규칙 (글로벌 설정)
 ├── memory-templates/        # 메모리 템플릿
 └── _archive/                # 기존 콘텐츠 아카이브
 ```
+
+---
+
+## 🧠 스킬 (9개)
+
+| 스킬 | 설명 |
+|------|------|
+| `coding-standards.md` | TypeScript/JS 코딩 표준 |
+| `backend-patterns.md` | API, DB, 캐싱 패턴 |
+| `frontend-patterns.md` | React, Next.js 패턴 |
+| `tdd-workflow/` | TDD 상세 가이드 |
+| `security-review/` | 보안 리뷰 체크리스트 |
+
+스킬 설정 방법: [SKILLS-SETUP.md](docs/SKILLS-SETUP.md)
 
 ---
 
