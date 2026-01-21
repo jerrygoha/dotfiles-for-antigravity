@@ -18,13 +18,16 @@ git init
 ### Step 2: dotfiles에서 워크플로우 가져오기
 
 ```bash
-# 방법 1: workflows만 복사 (권장)
+# 방법 1: workflows만 복사 (최소)
 cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
 
-# 방법 2: .agent 전체 복사
-cp -r ~/dotfiles-for-antigravity/.agent .
+# 방법 2: workflows + 한국어 가이드 (권장)
+cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
+cp -r ~/dotfiles-for-antigravity/docs docs
 
-# 방법 3: 프로젝트 컨텍스트 파일도 함께
+# 방법 3: 전체 복사 (프로젝트 컨텍스트 포함)
+cp -r ~/dotfiles-for-antigravity/.agent .
+cp -r ~/dotfiles-for-antigravity/docs docs
 cp ~/dotfiles-for-antigravity/ANTIGRAVITY.md .
 ```
 
