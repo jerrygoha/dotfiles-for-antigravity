@@ -10,48 +10,36 @@
 
 ---
 
-## 🔧 Antigravity 스킬 경로
+## 📁 사용 가능한 스킬 (9개)
 
-### 글로벌 스킬 (모든 프로젝트에 적용)
-
-**버그 수정 필요!** 구글이 경로를 잘못 설정함:
-
-```bash
-# 심볼릭 링크로 해결 (macOS/Linux/WSL)
-ln -s ~/.gemini/antigravity/skills ~/.gemini/antigravity/global_skills
-
-# 또는 global_skills 폴더에 직접 배치
-mkdir -p ~/.gemini/antigravity/global_skills
-cp -r ~/dotfiles-for-antigravity/.reference/everything-claude-code/skills/* ~/.gemini/antigravity/global_skills/
-```
-
-### 프로젝트 스킬 (특정 프로젝트에만 적용)
-
-```bash
-# 프로젝트 루트에 .agent/skills/ 생성
-mkdir -p .agent/skills
-cp -r ~/dotfiles-for-antigravity/.reference/everything-claude-code/skills/* .agent/skills/
-```
-
----
-
-## 📁 사용 가능한 스킬 (everything-claude-code 기준)
+모든 스킬은 폴더 구조로 통일되어 있습니다:
 
 | 스킬 | 설명 |
 |------|------|
-| `coding-standards.md` | TypeScript/JS 코딩 표준 |
-| `backend-patterns.md` | API, DB, 캐싱 패턴 |
-| `frontend-patterns.md` | React, Next.js 패턴 |
-| `tdd-workflow/SKILL.md` | TDD 상세 가이드 |
-| `security-review/` | 보안 리뷰 스킬 |
-| `clickhouse-io.md` | ClickHouse DB 패턴 |
+| `backend-patterns/` | API, DB, 캐싱 패턴 |
+| `clickhouse-io/` | ClickHouse DB 패턴 |
+| `coding-standards/` | TypeScript/JS 코딩 표준 |
+| `continuous-learning/` | 세션에서 패턴 자동 추출 |
+| `frontend-patterns/` | React, Next.js 패턴 |
+| `project-guidelines/` | 프로젝트별 가이드라인 템플릿 |
+| `security-review/` | 보안 리뷰 체크리스트 |
+| `strategic-compact/` | 전략적 컴팩트 제안 |
+| `tdd-workflow/` | TDD 상세 가이드 |
 
 ---
 
 ## 📤 스킬 파일 형식
 
-### 단일 파일 스킬
+모든 스킬은 **폴더 구조**를 따릅니다:
 
+```
+skill-folder/
+├── SKILL.md      # 필수: 메인 스킬 파일 (YAML frontmatter 포함)
+├── scripts/      # 선택: 자동화 스크립트
+└── config.json   # 선택: 설정 파일
+```
+
+**SKILL.md 형식:**
 ```markdown
 ---
 name: skill-name
@@ -63,66 +51,71 @@ description: 이 스킬이 활성화되는 상황
 [스킬 내용]
 ```
 
-### 폴더 스킬
+---
+
+## 🔧 스킬 경로
+
+### 글로벌 스킬 (모든 프로젝트에 적용)
+
+```bash
+# 경로 버그 수정 (심볼릭 링크)
+ln -s ~/.gemini/antigravity/skills ~/.gemini/antigravity/global_skills
+
+# 스킬 복사
+cp -r ~/dotfiles-for-antigravity/.agent/skills/* ~/.gemini/antigravity/skills/
+```
+
+### 프로젝트 스킬 (특정 프로젝트에만 적용)
+
+```bash
+# 프로젝트 루트에 복사
+mkdir -p .agent
+cp -R ~/dotfiles-for-antigravity/.agent/skills/. .agent/skills/
+```
+
+---
+
+## 💡 dotfiles 구조
 
 ```
-skill-folder/
-└── SKILL.md    # 필수: 메인 스킬 파일
+dotfiles-for-antigravity/
+├── .agent/
+│   ├── workflows/           # 워크플로우 (21개)
+│   └── skills/              # 스킬 (9개)
+│       ├── backend-patterns/
+│       │   └── SKILL.md
+│       ├── clickhouse-io/
+│       │   └── SKILL.md
+│       ├── coding-standards/
+│       │   └── SKILL.md
+│       ├── continuous-learning/
+│       │   ├── SKILL.md
+│       │   ├── config.json
+│       │   └── evaluate-session.sh
+│       ├── frontend-patterns/
+│       │   └── SKILL.md
+│       ├── project-guidelines/
+│       │   └── SKILL.md
+│       ├── security-review/
+│       │   └── SKILL.md
+│       ├── strategic-compact/
+│       │   ├── SKILL.md
+│       │   └── suggest-compact.sh
+│       └── tdd-workflow/
+│           └── SKILL.md
 ```
 
 ---
 
 ## 🚀 Quick Setup
 
-### 방법 1: 글로벌 스킬 (모든 프로젝트에 적용)
-
 ```bash
-# 1. 경로 버그 수정
-ln -s ~/.gemini/antigravity/skills ~/.gemini/antigravity/global_skills
-
-# 2. 스킬 복사
-mkdir -p ~/.gemini/antigravity/skills
-cp -r ~/dotfiles-for-antigravity/.reference/everything-claude-code/skills/* ~/.gemini/antigravity/skills/
-```
-
-### 방법 2: 프로젝트 스킬 (권장 - dotfiles에 포함시켜 배포)
-
-```bash
-# dotfiles에 스킬 추가
-mkdir -p ~/dotfiles-for-antigravity/.agent/skills
-cp -r ~/dotfiles-for-antigravity/.reference/everything-claude-code/skills/* ~/dotfiles-for-antigravity/.agent/skills/
-
-# 새 프로젝트에 적용 시
-cp -r ~/dotfiles-for-antigravity/.agent/skills .agent/skills
-```
-
----
-
-## 💡 프로젝트에 스킬 함께 배포하기
-
-### dotfiles 구조 업데이트
-
-```
-dotfiles-for-antigravity/
-├── .agent/
-│   ├── workflows/    # 워크플로우 (21개)
-│   └── skills/       # 스킬 추가! 
-│       ├── coding-standards.md
-│       ├── backend-patterns.md
-│       ├── frontend-patterns.md
-│       └── tdd-workflow/
-│           └── SKILL.md
-```
-
-### 새 프로젝트 시작 시
-
-```bash
-# workflows + skills 복사
-cp -r ~/dotfiles-for-antigravity/.agent .
+# 새 프로젝트에 workflows + skills 복사
+cp -R ~/dotfiles-for-antigravity/.agent/. .agent/
 
 # 또는 선택적 복사
-cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
-cp -r ~/dotfiles-for-antigravity/.agent/skills .agent/skills
+mkdir -p .agent
+cp -R ~/dotfiles-for-antigravity/.agent/skills/. .agent/skills/
 ```
 
 ---
@@ -130,4 +123,9 @@ cp -r ~/dotfiles-for-antigravity/.agent/skills .agent/skills
 ## ✅ 확인 방법
 
 스킬이 제대로 로드되면 관련 작업 시 자동 활성화됩니다.
-예: TDD 관련 작업 시 `tdd-workflow` 스킬이 자동 적용
+
+```
+"사용 가능한 스킬 목록이 뭐야?"
+```
+
+예상 결과: 9개 스킬 모두 표시

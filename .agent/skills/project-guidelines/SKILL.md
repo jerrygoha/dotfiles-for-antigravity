@@ -1,3 +1,8 @@
+---
+name: project-guidelines
+description: Template for creating project-specific guidelines. Contains architecture patterns, code conventions, testing requirements, and deployment workflows for full-stack applications.
+---
+
 # Project Guidelines Skill (Example)
 
 This is an example of a project-specific skill. Use this as a template for your own projects.
@@ -339,7 +344,7 @@ SUPABASE_KEY=eyJ...
 
 ## Related Skills
 
-- `coding-standards.md` - General coding best practices
-- `backend-patterns.md` - API and database patterns
-- `frontend-patterns.md` - React and Next.js patterns
+- `coding-standards/` - General coding best practices
+- `backend-patterns/` - API and database patterns
+- `frontend-patterns/` - React and Next.js patterns
 - `tdd-workflow/` - Test-driven development methodology

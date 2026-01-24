@@ -2,108 +2,110 @@
 description: Code review checklist for quality and security
 ---
 
-# Code Review Workflow
+# Code Review Workflow (Dev-Master Edition)
 
-Security and quality review before commit/PR.
+Execute a deep, strategic code review focusing on Architecture, Security, and Maintainability.
 
 ## When to Use
 
-- Before committing changes
-- Before creating PR
-- Security audit
-- Pre-team review self-check
+- **Before Commit**: Mandatory check for all changes.
+- **Pull Request**: Pre-flight check before assigning human reviewers.
+- **Security Audit**: When touching sensitive logic (Auth, Payments).
+- **Refactoring**: Verification of behavior preservation.
 
 ---
 
-## Process
+## 1. Automated Quality Gate
 
-### 1. Check Staged Changes
+First, ensure the basics are sound. If these fail, **STOP** and request fixes.
 
 // turbo
 ```bash
-git diff --cached --stat 2>/dev/null || git diff --stat
-```
+# Check for staged changes
+git diff --cached --stat > /dev/null || { echo "No staged changes found."; exit 1; }
 
-### 2. Security Review (CRITICAL)
-
-| Check | Command/Action |
-|-------|---------------|
-| Hardcoded secrets | `grep -rn "password\|api_key\|secret" src/` |
-| SQL injection | Check for string concatenation in queries |
-| XSS vulnerability | Check for `dangerouslySetInnerHTML`, unescaped output |
-| Auth bypass | Verify all routes check authorization |
-
-### 3. Code Quality Review
-
-**Critical Issues (Block commit):**
-- [ ] No hardcoded secrets
-- [ ] No SQL/XSS vulnerabilities
-- [ ] All inputs validated
-- [ ] Proper error handling
-
-**High Priority:**
-- [ ] Functions < 50 lines
-- [ ] Files < 800 lines
-- [ ] Nesting depth < 4 levels
-- [ ] No `console.log` in production code
-- [ ] No TODO/FIXME without issue reference
-
-**Medium Priority:**
-- [ ] Immutable patterns used
-- [ ] Proper TypeScript types (no `any`)
-- [ ] Tests added for new code
-- [ ] Accessibility considered
-
-### 4. Generate Review Report
-
-```markdown
-## Code Review Report
-
-### 🔴 CRITICAL (Must fix before commit)
-- [File:Line] Issue description
-
-### 🟠 HIGH (Should fix)
-- [File:Line] Issue description
-
-### 🟡 MEDIUM (Recommended)
-- [File:Line] Issue description
-
-### Summary
-- CRITICAL: X
-- HIGH: X
-- MEDIUM: X
-
-**Verdict**: [APPROVE / REQUEST CHANGES]
+# Run static analysis & tests (Adjust commands for your project)
+echo "Running Quality Checks..."
+(npm run lint 2>/dev/null || echo "⚠️ Lint script missing or failed") && \
+(npm test 2>/dev/null || echo "⚠️ Test script missing or failed")
 ```
 
 ---
 
-## Security Checklist
+## 2. Semantic Analysis (The Dev-Master Eye)
 
-```
-[ ] No hardcoded secrets (API keys, passwords, tokens)
-[ ] SQL injection prevented (parameterized queries)
-[ ] XSS prevented (sanitized output)
-[ ] CSRF protection enabled
-[ ] Input validation on all user inputs
-[ ] Error messages don't leak sensitive info
-[ ] Rate limiting considered
-[ ] Authentication/authorization verified
+**Instruction**: Do not just read the code. **Understand the intent.**
+Analyze the staged changes (`git diff --cached`) with the following lens:
+
+### 🏛️ Architectural Integrity
+- Does this change violate **SOLID** principles?
+- Is the **Separation of Concerns** maintained?
+- Does it introduce tight coupling between disparate components?
+
+### 🧠 Logic & Edge Cases
+- Are **Race Conditions** possible?
+- How does it handle `null`, `undefined`, or empty states?
+- Is the **Big-O complexity** optimal for the expected data scale?
+
+### 🛡️ Security Deep-Dive (OWASP Context)
+- **Injection**: Are inputs sanitized? (SQLi, XSS)
+- **Auth**: Are permissions checked at the *server* side?
+- **Data Exposure**: Are sensitive fields (PII, secrets) logged or returned?
+
+---
+
+## 3. Interactive Review Process
+
+For each identified issue, classify it by severity:
+
+| Severity | Definition | Action |
+|----------|------------|--------|
+| 🔴 **CRITICAL** | Security vuln, Crash risk, Build break | **MUST FIX** (Block commit) |
+| 🟠 **HIGH** | Logic error, Performance leak, Tech debt | **SHOULD FIX** (Request changes) |
+| 🟡 **MEDIUM** | Style, Minor optimization, Naming | **RECOMMEND** (Approve with comments) |
+
+---
+
+## 4. Generate Review Report
+
+Output the review in this format:
+
+```markdown
+# 🧐 Dev-Master Code Review
+
+## 🚦 Status: [APPROVE / REQUEST CHANGES]
+
+### 🔴 CRITICAL ISSUES
+1. `[File:Line]` **[Issue Name]**: [Description]
+   - *Exploit/Risk*: [Why is this dangerous?]
+   - *Fix*: [Code snippet]
+
+### 🟠 HIGH PRIORITY
+1. `[File:Line]` **[Issue Name]**: [Description]
+   - *Impact*: [Performance/Maintainability impact]
+   - *Suggestion*: [Code snippet]
+
+### 🟡 OPTIMIZATIONS
+- `[File:Line]`: [Suggestion for better style or minor perf]
+
+### 💡 General Feedback
+- [Architecture/Design comments]
+- [Positive feedback on good patterns used]
 ```
 
 ---
 
 ## Best Practices
 
-- ✅ Run frequently (small batches)
-- ✅ Fix CRITICAL issues immediately
-- ✅ Automate with pre-commit hooks
-- ❌ Never commit with CRITICAL issues
-- ❌ Don't skip security checks
+- ✅ **Review Logic, Not Just Syntax**: Catch logical bombs that linters miss.
+- ✅ **Think Like an Attacker**: Try to break the code.
+- ✅ **Suggest Solutions**: Don't just complain; provide the fix.
+- ❌ **No Nitpicking**: If a linter can catch it, ignore it here (unless critical).
 
 ---
 
 ## Related Workflows
 
-- `/create-pr` - After review passes
-- `/testing` - Ensure test coverage
+- `/fix-ci` - If Quality Gate fails.
+- `/refactor-clean` - To apply architectural fixes.
+- `/security-review` - For dedicated security audits.

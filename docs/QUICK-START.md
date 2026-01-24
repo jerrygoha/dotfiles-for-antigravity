@@ -19,15 +19,17 @@ git init
 
 ```bash
 # 방법 1: workflows만 복사 (최소)
-cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
+mkdir -p .agent
+cp -R ~/dotfiles-for-antigravity/.agent/workflows/. .agent/workflows/
 
 # 방법 2: workflows + 한국어 가이드 (권장)
-cp -r ~/dotfiles-for-antigravity/.agent/workflows .agent/workflows
-cp -r ~/dotfiles-for-antigravity/docs docs
+mkdir -p .agent
+cp -R ~/dotfiles-for-antigravity/.agent/workflows/. .agent/workflows/
+cp -R ~/dotfiles-for-antigravity/docs/. docs/
 
 # 방법 3: 전체 복사 (프로젝트 컨텍스트 포함)
-cp -r ~/dotfiles-for-antigravity/.agent .
-cp -r ~/dotfiles-for-antigravity/docs docs
+cp -R ~/dotfiles-for-antigravity/.agent/. .agent/
+cp -R ~/dotfiles-for-antigravity/docs/. docs/
 cp ~/dotfiles-for-antigravity/ANTIGRAVITY.md .
 ```
 
